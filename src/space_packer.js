@@ -137,13 +137,17 @@ function decode(encoded_list, position_setter, value_setter){
   return ret;
 }
 
-exports.space_packer = {
+module.exports = {
   algorithm : "kh_masked",
   encode : encode,
   decode : decode,
   base64code : base64code,
   base64decode : base64decode,
-  printMsg : () => console.log("This is a message from the space packer")
+  printMsg : () => {
+    let str = "This is a message from the space packer";
+    console.log(str);
+    return str;
+  }
 };
 
  
