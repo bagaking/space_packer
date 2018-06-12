@@ -2,7 +2,7 @@
   "name": "space_packer",
   "version": "1.0.2",
   "description": "An space compressor using postion and value",
-  "main": "src/space_packer.js",
+  "main": "src/space.js",
   "scripts": {
     "test": "mocha tests/*test.js --reporter spec"
   },

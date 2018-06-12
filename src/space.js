@@ -9,21 +9,27 @@ for(let i = 0; i < base64code.length; i ++){
   base64decode[base64code[i]] = i;
 }
 
-//create an new space
-exports.create = function (width, height, depth){
-  let values = []
+function new_size(width, height, depth){
   let plat_total = width * depth;
   let total = plat_total * height;
-  for(let i = 0; i < total; i ++) values[i] = 0
   return {
-    _size : {
-      _height : height  ,
-      _width  : width   ,
-      _depth  : depth   ,
-      _plat_total  : plat_total   ,
-      _total  : total   ,
-    },
+    _height : height  ,
+    _width  : width   ,
+    _depth  : depth   ,
+    _plat_total  : plat_total   ,
+    _total  : total   ,
+  }
+}
+
+//create an new space
+exports.create = function (width, height, depth){
+  let values = [] 
+  let _size = new_size(width, height, depth)
+  for(let i = 0; i < _size._total; i ++) values[i] = 0
+  return {
+    _size : _size,
     _info : {
+      algorithm : "kh_masked",
       _existed : 0,
     },
     _values : values,
@@ -71,16 +77,27 @@ exports.create = function (width, height, depth){
         data += base64code[v];
         if(count != 0) data += count;
       }
+      data = this._size._width + "," + this._size._height + "," + this._size._depth + "," + data
       return data;
     },
     deserialize : function(data){
       let total_setted = 0;
-      for(let i = 0; i < data.length; i ++){
-        let c = data[i];
+      let raw_lst = data.split(",")
+      let width = parseInt(raw_lst[0])
+      let height = parseInt(raw_lst[1])
+      let depth = parseInt(raw_lst[2])
+      let content = raw_lst[3]
+      this._size = new_size(width, height, depth)
+      this._values = []
+      for(let i = 0; i < this._size._total; i ++) this._values[i] = 0;
+
+
+      for(let i = 0; i < content.length; i ++){
+        let c = content[i];
         let value = base64decode[c];
         let count = 0;
-        for(let k = 1; k + i < data.length;){
-          let next_c = data[i + k]
+        for(let k = 1; k + i < content.length;){
+          let next_c = content[i + k]
           if(next_c < '0' || next_c > '9') break;
           count = count * 10 + parseInt(next_c);
           i ++;
@@ -88,16 +105,42 @@ exports.create = function (width, height, depth){
         this._info._existed = 0;
         for(let k = 0; k <= count; k ++){
           this._values[total_setted + k] = value;
-          if(value != 0){
-             this._info._existed += 1;
-          }
+          if(value != 0) this._info._existed += 1;
         }
         total_setted += count + 1;
       }
       return total_setted;
     },
+    parse_general_data : function(node_lst, pos_getter, pos_setter, value_getter, value_setter){ 
+      let min = { x:99999, y:99999, z:99999};
+      let max = { x:-99999, y:-99999, z:-99999};
+  
+      for(let i = 0; i < node_lst.length; i ++){
+          let pos = pos_getter(node_lst[i])
+          min.x = Math.min(min.x, pos.x);
+          min.y = Math.min(min.y, pos.y);
+          min.z = Math.min(min.z, pos.z);
+          max.x = Math.max(max.x, pos.x);
+          max.y = Math.max(max.y, pos.y);
+          max.z = Math.max(max.z, pos.z); 
+      } 
+
+      //get space info
+      let width = max.x - min.x + 1;
+      let height = max.y - min.y + 1;
+      let depth = max.z - min.z + 1;
+  
+      let new_space = create(width, height, depth)
+  
+      for(let i = 0; i < node_lst.length; i ++){
+          let pos = pos_getter(node_lst[i]);
+          let value = value_getter(node_lst[i]);
+          new_space.set(pos.x, pos.y, pos.z, value); 
+      }
+      return new_space;
+    },
     clear : function(){
-        for(let i = 0; i < total; i ++) this._values[i] = 0
+        for(let i = 0; i < this._size._total; i ++) this._values[i] = 0
         this._info._existed = 0
     },
     print : function(){
