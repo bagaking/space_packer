@@ -9,80 +9,138 @@ for(let i = 0; i < base64code.length; i ++){
   base64decode[base64code[i]] = i;
 }
 
-//value types up to 32
-function encode(position_list, pos_getter, value_getter, debug = false){
-  for(let ind = 0; ind < position_list.length; ind++){
-    //sort all position
-    let data = position_list[ind].sort((a,b) => {
-      let pos_a = pos_getter(a)
-      let pos_b = pos_getter(b)
-      return 1000000 * (pos_a.x - pos_b.x) + 1000 * (pos_a.y - pos_b.y) + (pos_a.z - pos_b.z)
-    });
-    console.log(JSON.stringify(data));
-    
-    //record space info
-    let min = { x:99999, y:99999, z:99999};
-    let max = { x:-99999, y:-99999, z:-99999};
-    
-    for(let i = 0; i < data.length; i ++){
-      let pos = pos_getter(data[i])
-      if(pos.x < min.x) min.x = pos.x;
-      if(pos.y < min.y) min.y = pos.y;
-      if(pos.z < min.z) min.z = pos.z;
-      if(pos.x > max.x) max.x = pos.x;
-      if(pos.y > max.y) max.y = pos.y;
-      if(pos.z > max.z) max.z = pos.z; 
-    } 
 
-    // create ret data
-    ret[ind] = {
-      algorithm:"kh_masked",
-      min:min,
-      max:max,  
-      data:"",
-    }    
+function pos_to_ind(pos, width, height, depth, min_pos){
+    let offsetx = pos.x - min_pos.x;
+    let offsety = pos.y - min_pos.y;
+    let offsetz = pos.z - min_pos.z;
+    return offsety * width * depth + offsetx * depth + offsetz
+}
 
-    //make all pair and create mask
-    let _strs = []
-    let str_mask_inds = {} 
-    let mask = ""
-    for(let i = 0, j = 0; i < data.length; i ++){ 
-      let type_ind = value_getter(data[i]);
-      let str = base64code[type_ind];
-      let count = 0;
-      while(count + 1 < base64code.length && i + 1 < data.length && value_getter(data[i]) == value_getter(data[i+1])) {
-          i ++;
-          count ++;
-      } 
-      str += base64code[count];
-      _strs[j ++] = str
-      if(str_mask_inds[str] == null) str_mask_inds[str] = -1;
-      else if(str_mask_inds[str] < 0 && mask.length < 64) { //mask length up to 64 (32 pairs)
-          str_mask_inds[str] = mask.length / 2;
-          mask += str;
-      }
-    }
+function ind_to_pos(_index, width, height, depth, min_pos){
+    return {
+        x : Math.floor(_index / depth) % width + min_pos.x,
+        y : Math.floor(_index / depth / width)  + min_pos.y,
+        z : _index % (depth) + min_pos.z,
+    };
+}
 
-    //create masked data
-    ret[ind].data += base64code[mask.length];
-    ret[ind].data += mask;
-    for(let i = 0; i < _strs.length; i ++){
-        let word = _strs[i];
-        var mask_ind = str_map[word];  
-        if(mask_ind >= 0) {
-            ret[ind].data += base64code[mask_ind + 32];
-        } else{
-            ret[ind].data += word;
-        }
-    }
-
-    //output for debug
-    if(debug){
-      ret[ind].mask_length = base64code[mask.length];
-      ret[ind].mask = mask;
-    }
+function fill_position(list, pos_getter, pos_setter, value_getter, value_setter, width, height, depth, min){
+  let total = width * height * depth;
+  let ret = []
+  for(let i = 0; i < total; i ++) ret[i] = 0;
+  for(let i = 0; i < list.length; i ++){
+      let pos = pos_getter(list[i]);
+      let value = value_getter(list[i]);
+      ret[pos_to_ind(pos, width, height, depth, min)] = value;
   }
   return ret;
+}
+
+
+function fill(position_lists, pos_getter, pos_setter, value_getter, value_setter){
+    let ret = []
+    for(let ind = 0; ind < position_lists.length; ind++){
+        let min = { x:99999, y:99999, z:99999};
+        let max = { x:-99999, y:-99999, z:-99999};
+
+        for(let i = 0; i < position_lists[ind].length; i ++){
+            let pos = pos_getter(position_lists[ind][i])
+            if(pos.x < min.x) min.x = pos.x;
+            if(pos.y < min.y) min.y = pos.y;
+            if(pos.z < min.z) min.z = pos.z;
+            if(pos.x > max.x) max.x = pos.x;
+            if(pos.y > max.y) max.y = pos.y;
+            if(pos.z > max.z) max.z = pos.z;
+        }
+
+        //get space info
+        let width = max.x - min.x + 1;
+        let height = max.y - min.y + 1;
+        let depth = max.z - min.z + 1;
+
+        ret[ind] = {
+          min : min, max : max, width : width, height : height, depth : depth,
+          data : fill_position(position_lists[ind], pos_getter, pos_setter, value_getter, value_setter, width, height, depth, min)
+        }
+    }
+    return ret;
+}
+
+//value types up to 32
+function encode(position_lists, pos_getter, pos_setter, value_getter, value_setter, debug = false){
+  let ret = []
+
+  let filled_lsts = fill(position_lists, pos_getter, pos_setter, value_getter, value_setter);
+
+  for(let ind = 0; ind < filled_lsts.length; ind++){
+      let filled = filled_lsts[ind].data;
+
+      // create ret data
+      ret[ind] = {
+          algorithm:"kh_masked",
+          data:"",
+          minv:filled_lsts[ind].min,
+          width:filled_lsts[ind].width,
+          height:filled_lsts[ind].height,
+          depth:filled_lsts[ind].depth,
+      }
+
+      //make all pair and create mask
+      let _strs = []
+      let str_mask_inds = {}
+      let mask = ""
+      for(let i = 0, j = 0; i < filled.length ; i ++){
+          let type_ind = filled[i];
+          let str = base64code[type_ind];
+          let count = 0;
+          while(count + 1 < base64code.length && i + 1 < filled.length && filled[i] == filled[i+1]) {
+              i ++;
+              count ++;
+          }
+          str += base64code[count];
+          _strs[j ++] = str
+          if(str_mask_inds[str] == null) str_mask_inds[str] = -1;
+          else if(str_mask_inds[str] < 0 && mask.length < 62) { //mask length up to 62 (31 pairs)
+              str_mask_inds[str] = mask.length / 2;
+              mask += str;
+          }
+      }
+
+        //create masked data
+        ret[ind].data += base64code[mask.length];
+        ret[ind].data += mask;
+        for(let i = 0; i < _strs.length; i ++){
+            let word = _strs[i];
+            var mask_ind = str_mask_inds[word];
+            if(mask_ind >= 0) {
+                ret[ind].data += base64code[mask_ind + 33];
+            } else{
+                ret[ind].data += word;
+            }
+        }
+
+        ret[ind].min = filled.min;
+        ret[ind].max = filled.max;
+        //output for debug
+        if(debug){
+          ret[ind].mask_length = mask.length;
+          ret[ind].mask = mask;
+        }
+  }
+  return ret;
+}
+
+function split_data(data){
+  let _mask_length = base64decode[data[0]];
+  let _mask = data.substring(1, _mask_length + 1);
+  let _data = data.substring(_mask_length + 1);
+  let set = {
+    mask_length : _mask_length, 
+    mask : _mask, 
+    data : _data
+  }
+  return set
 }
 
 function decode(encoded_list, position_setter, value_setter){
@@ -94,41 +152,33 @@ function decode(encoded_list, position_setter, value_setter){
     let structure = encoded_list[ind];
     let data = structure.data
 
-    //get space info
-    let width = structure.max.x - structure.min.x + 1;
-    let height = structure.max.y - structure.min.y + 1;
-    let depth = structure.max.z - structure.min.z + 1;
-
     //get mask info
-    let mask_length = base64decode[data[0]];
-    let mask = data.substring(1, mask_length + 1);
+    let set = split_data(data); 
  
     let offset = 0;
-    for(let i = mask_length + 1; i < data.length ; i ++){
-        let key = data[i]
+    for(let i = 0; i < set.data.length ; i ++){
+        let key = set.data[i]
         let value = base64decode[key]
         let key_count = "";
         let count = 0;
 
-        if(value >= 32){ //mask hit
-            let mask_pos = (value - 32)
-            key = mask[mask_pos* 2];
-            key_count = mask[mask_pos * 2 + 1];
+        if(value > 32){ //mask hit
+            let mask_pos = (value - 33)
+            key = set.mask[mask_pos* 2];
+            key_count = set.mask[mask_pos * 2 + 1];
             value = base64decode[key];
             count = base64decode[key_count];
         }else{ //normal pair
-            key_count = data[++i];
-            count = base64decode[key_count]; 
+            key_count = set.data[++i];
+            count = base64decode[key_count];
         }
 
         //insert point by position and value
         for(let j = 0; j <= count; j ++){
           let _index = j + offset;
-          position_setter(ret[ind][_index], {
-                x : Math.floor(_index / (height * depth)) + structure.min.x,
-                y : Math.floor((_index / depth) / height) + structure.min.y,
-                z : _index % (depth) + structure.min.z,
-          });
+          ret[ind][_index] = {}
+
+          position_setter(ret[ind][_index], ind_to_pos(_index, structure.width, structure.height, structure.depth, structure.minv));
           value_setter(ret[ind][_index], value) 
         }
         offset += count + 1;
@@ -138,16 +188,20 @@ function decode(encoded_list, position_setter, value_setter){
 }
 
 module.exports = {
-  algorithm : "kh_masked",
-  encode : encode,
-  decode : decode,
-  base64code : base64code,
-  base64decode : base64decode,
-  printMsg : () => {
-    let str = "This is a message from the space packer";
-    console.log(str);
-    return str;
-  }
+    algorithm : "kh_masked",
+    encode : encode,
+    decode : decode,
+    split_data : split_data,
+    fill : fill,
+    pos_to_ind : pos_to_ind,
+    ind_to_pos : ind_to_pos,
+    base64code : base64code,
+    base64decode : base64decode,
+    printMsg : () => {
+        let str = "This is a message from the space packer";
+        console.log(str);
+        return str;
+    }
 };
 
  
