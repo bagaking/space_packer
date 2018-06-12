@@ -1,6 +1,6 @@
 {
   "name": "space_packer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "easy compress spaces with potion and value",
   "main": "space_packer.js",
   "scripts": {

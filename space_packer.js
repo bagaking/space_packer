@@ -112,7 +112,7 @@ function decode(encoded_list, position_setter, value_setter){
 
         if(value >= 32){ //mask hit
             let mask_pos = (value - 32)
-            key = mask[mask_pos];
+            key = mask[mask_pos* 2];
             key_count = mask[mask_pos * 2 + 1];
             value = base64decode[key];
             count = base64decode[key_count];
