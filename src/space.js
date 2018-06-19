@@ -47,7 +47,7 @@ exports.create = function (width, height, depth){
     },
     pos : function (ind) {
       return {
-        x : Math.floor(ind / this._size._depth) % this._size.width ,
+        x : Math.floor(ind / this._size._depth) % this._size._width ,
         y : Math.floor(ind / this._size._plat_total),
         z : ind % this._size._depth,
       }
