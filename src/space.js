@@ -54,15 +54,21 @@ exports.create = function (width, height, depth){
       let pos = this.pos_in_box(x, y, z)
       return pos;
     },
-    set : function(x, y, z, v){
+    set : function(x, y, z, v){ 
       let ind = this.ind(x, y, z);
+      return this.setByInd(ind, v)
+    },
+    get : function(x, y, z){ 
+      let ind = this.ind(x, y, z);
+      return this.getByInd(ind);
+    },
+    setByInd : function(ind, v){ 
       if(this._values[ind] == 0 && v != 0) this._info._existed += 1;
       else if(this._values[ind] != 0 && v == 0) this._info._existed -= 1;
       this._values[ind] = v;
       return this
     },
-    get : function(x, y, z){
-      let ind = this.ind(x, y, z);
+    getByInd : function(ind){ 
       return this._values[ind];
     },
     serialize : function(){
@@ -91,7 +97,8 @@ exports.create = function (width, height, depth){
       this._values = []
       for(let i = 0; i < this._size._total; i ++) this._values[i] = 0;
 
-
+      let ind_poses = []
+      this._info._existed = 0;
       for(let i = 0; i < content.length; i ++){
         let c = content[i];
         let value = base64decode[c];
@@ -102,10 +109,12 @@ exports.create = function (width, height, depth){
           count = count * 10 + parseInt(next_c);
           i ++;
         }
-        this._info._existed = 0;
         for(let k = 0; k <= count; k ++){
           this._values[total_setted + k] = value;
-          if(value != 0) this._info._existed += 1;
+          if(value != 0) {
+            ind_poses[this._info._existed] = total_setted + k
+            this._info._existed += 1;
+          }
         }
         total_setted += count + 1;
       }
