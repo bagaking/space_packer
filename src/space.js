@@ -154,7 +154,10 @@ exports.create = function (width, height, depth){
     },
     print : function(){
       console.log(JSON.stringify(this))
-    } 
+    },
+    toBmp : function(){
+
+    }
   }
 }
  
