@@ -1,7 +1,7 @@
-let Space = require("./space")
+let space = require("./space")
 
 exports.encode = function (color_table, code) {
-  let data = Space.create(0, 0, 0);
+  let data = space.create(0, 0, 0);
   let poses = data.deserialize(code);
   newdata = new Array()
 
