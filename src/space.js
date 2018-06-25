@@ -148,6 +148,20 @@ exports.create = function (width, height, depth){
       }
       return new_space;
     },
+    to_general_data : function(fn_data_node_creator){
+      let node_lst = []
+      for(let x =0; x < this._size._width; x ++){
+        for(let y =0; y < this._size._height; y ++){ 
+          for(let z =0; z < this._size._depth; z ++) {
+            let value = this.get(x, y, z)
+            if(value > 0){
+              fn_data_node_creator(node_lst, x, y, z, value) 
+            }
+          }
+        }
+      }
+      return node_lst
+    },
     clear : function(){
         for(let i = 0; i < this._size._total; i ++) this._values[i] = 0
         this._info._existed = 0
