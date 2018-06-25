@@ -1,7 +1,3 @@
-let space = require('./src/space')
-let imgencoder = require('./src/imgencoder')
+let space = require('./src/space') 
 
-module.exports = {
-  encode: imgencoder,
-  space: space
-};
+module.exports = space;

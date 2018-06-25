@@ -1,6 +1,6 @@
 {
   "name": "space_packer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An space compressor using postion and value",
   "main": "src/space.js",
   "scripts": {
