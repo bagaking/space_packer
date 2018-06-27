@@ -60,7 +60,7 @@ khspace.prototype = {
     return pos_in_box(
       Math.floor(ind / this._size._depth) % this._size._width,
       Math.floor(ind / this._size._plat_total),
-      ind % this._size._depth,
+      ind % this._size._depth
     )
   },
   set_by_ind: function (ind, v) {
