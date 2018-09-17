@@ -1,4 +1,4 @@
-const CodeMapper = require('../../lib/encoding/codeMapper')
+const CodeMapper = require('../../src/encoding/codeMapper')
 const assert  = require('assert');
 const should = require('should');
 

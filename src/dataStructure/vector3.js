@@ -132,6 +132,10 @@ class Vector3 {
         }
     }
 
+    toInd(width, heigth, depth){
+
+    }
+
     // todo : parse(compressed)
 }
 

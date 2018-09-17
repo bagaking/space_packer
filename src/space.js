@@ -1,13 +1,15 @@
+"using strict"
+
 let Vector3 = require('../lib/dataStructure/vector3')
 let CodeMapper = require('../lib/encoding/codeMapper')
 
 let cm = new CodeMapper()
 
-function khspace(width = 0, height = 0, depth = 0) {
+function space(width = 0, height = 0, depth = 0) {
     this.init(width, height, depth);
 }
 
-khspace.prototype = {
+space.prototype = {
     get algorithm() {
         return "kh_masked"
     },
@@ -138,17 +140,15 @@ khspace.prototype = {
     },
 }
 
-exports.space = khspace;
-
-exports.parse = function (code) {
-    let data = new khspace(0, 0, 0);
+parse = function (code) {
+    let data = new space(0, 0, 0);
     return {
         poses: data.deserialize(code),
         space: data
     }
 }
 
-exports.from_general_data = function (node_lst, pos_getter, value_getter) {
+from_general_data = function (node_lst, pos_getter, value_getter) {
     let min = {x: 99999, y: 99999, z: 99999};
     let max = {x: -99999, y: -99999, z: -99999};
 
@@ -167,7 +167,7 @@ exports.from_general_data = function (node_lst, pos_getter, value_getter) {
     let height = max.y - min.y + 1;
     let depth = max.z - min.z + 1;
 
-    let new_space = new khspace(width, height, depth)
+    let new_space = new space(width, height, depth)
 
     for (let i = 0; i < node_lst.length; i++) {
         let pos = pos_getter(node_lst[i]);
@@ -177,7 +177,7 @@ exports.from_general_data = function (node_lst, pos_getter, value_getter) {
     return new_space;
 }
 
-exports.to_general_data = function (fn_data_node_creator) {
+to_general_data = function (fn_data_node_creator) {
     let node_lst = []
     for (let x = 0; x < this.width; x++) {
         for (let y = 0; y < this.height; y++) {
@@ -192,8 +192,8 @@ exports.to_general_data = function (fn_data_node_creator) {
 }
 
 
-exports.code_to_img = function (color_table, code) {
-    let data = new khspace(0, 0, 0);
+code_to_img = function (color_table, code) {
+    let data = new space(0, 0, 0);
     let poses = data.deserialize(code);
     newdata = new Array()
 
@@ -252,4 +252,13 @@ exports.code_to_img = function (color_table, code) {
         }
     }
     return jpegDataUri = canvas.toDataURL();
-} 
+}
+
+
+module.exports = {
+    space,
+    parse,
+    from_general_data,
+    to_general_data,
+    code_to_img,
+}

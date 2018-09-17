@@ -1,4 +1,4 @@
-const Vector3 = require('../../lib/dataStructure/vector3')
+const Vector3 = require('../../src/dataStructure/vector3')
 const assert  = require('assert');
 const should = require('should');
 
