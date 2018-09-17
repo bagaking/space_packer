@@ -1,5 +1,6 @@
-let Vector3 = require('../../lib/dataStructure/vector3')
-let assert  = require('assert');
+const Vector3 = require('../../lib/dataStructure/vector3')
+const assert  = require('assert');
+const should = require('should');
 
 let v3 = null
 
@@ -100,5 +101,42 @@ describe('lib/dataStructure/Vector3', function(){
         v3.y = 0
         assert.equal(v3.string(true), ",,")
     })
+
+    it('default value', function(){
+
+        Vector3.prefab.zero.x.should.equal(0)
+        Vector3.prefab.zero.y.should.equal(0)
+        Vector3.prefab.zero.z.should.equal(0)
+
+        Vector3.prefab.one.x.should.equal(1)
+        Vector3.prefab.one.y.should.equal(1)
+        Vector3.prefab.one.z.should.equal(1)
+
+        Vector3.prefab.left.x.should.equal(-1)
+        Vector3.prefab.left.y.should.equal(0)
+        Vector3.prefab.left.z.should.equal(0)
+
+        Vector3.prefab.right.x.should.equal(1)
+        Vector3.prefab.right.y.should.equal(0)
+        Vector3.prefab.right.z.should.equal(0)
+
+        Vector3.prefab.down.x.should.equal(0)
+        Vector3.prefab.down.y.should.equal(-1)
+        Vector3.prefab.down.z.should.equal(0)
+
+        Vector3.prefab.up.x.should.equal(0)
+        Vector3.prefab.up.y.should.equal(1)
+        Vector3.prefab.up.z.should.equal(0)
+
+        Vector3.prefab.back.x.should.equal(0)
+        Vector3.prefab.back.y.should.equal(0)
+        Vector3.prefab.back.z.should.equal(-1)
+
+        Vector3.prefab.forward.x.should.equal(0)
+        Vector3.prefab.forward.y.should.equal(0)
+        Vector3.prefab.forward.z.should.equal(1)
+    })
+
+
 })
 
