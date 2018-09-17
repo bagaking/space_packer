@@ -1,3 +1,3 @@
-let space = require('./src/space') 
+let space = require('./lib/space') 
 
 module.exports = space;

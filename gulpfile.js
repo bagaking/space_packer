@@ -4,12 +4,14 @@ const jsdoc = require('gulp-jsdoc3');
 var mocha = require('gulp-mocha');
 
 gulp.task('doc', function (cb) {
-    gulp.src(['README.md', './src/**/*.js'], {read: false})
-        .pipe(jsdoc(cb));
+  gulp.src(['README.md', './src/**/*.js'], {
+      read: false
+    })
+    .pipe(jsdoc(cb));
 });
 
-gulp.task('test', function() {
-  return gulp.src(['./src/**/*.js'], { read: false })
+gulp.task('test', function () {
+  return gulp.src(['./test/**/*.js'])
     .pipe(mocha({
       reporter: 'spec',
       globals: {
@@ -19,8 +21,8 @@ gulp.task('test', function() {
 });
 
 gulp.task('watch', function () {
-  gulp.watch('./src/**/*.js', ['test']);
-  gulp.watch('./src/**/*.js', ['doc']);
-});
+  gulp.watch('./src/**/*.js', ['doc'])
+  gulp.watch(['./src/**/*.js', './lib/**/*.js', './test/**/*.js'], ['test'])
+})
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch'])

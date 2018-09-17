@@ -1,6 +1,6 @@
-let space = require('../src/space.js')
+let space = require('../lib/space.js')
 
-let a = space.create(20, 20, 20)
+let a = new space(20, 20, 20)
 
 a.print()
 a.set(0,0,1, 35)

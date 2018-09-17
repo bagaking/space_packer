@@ -1,4 +1,4 @@
-let space = require('../src/space.js')
+let space = require('../lib/space.js')
 let assert  = require('assert'); 
 
 describe('space', function(){

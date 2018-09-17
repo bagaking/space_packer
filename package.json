@@ -4,7 +4,7 @@
   "description": "An space compressor using postion and value",
   "main": "src/space.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha tests/*test.js --reporter spec"
+    "test": "./node_modules/.bin/mocha test/*test.js --reporter spec"
   },
   "repository": {
     "type": "git",
