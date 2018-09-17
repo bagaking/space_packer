@@ -1,3 +1,5 @@
-let Vector3 = require('../lib/dataStructure/vector3')
+let Vector3 = require('./vector3')
 
-class CubeArea extends Vector3
+class CubeArea extends Vector3 {
+
+}

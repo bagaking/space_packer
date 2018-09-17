@@ -1,7 +1,7 @@
 "using strict"
 
-let Vector3 = require('../lib/dataStructure/vector3')
-let CodeMapper = require('../lib/encoding/codeMapper')
+let Vector3 = require('./dataStructure/vector3')
+let CodeMapper = require('./encoding/codeMapper')
 
 let cm = new CodeMapper()
 
