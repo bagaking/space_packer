@@ -1,5 +1,4 @@
 let space = require('../src/space.js')
-let data = require('../res/data_org.json')
 let assert  = require('assert'); 
 
 describe('space', function(){
