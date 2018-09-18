@@ -1,3 +1,5 @@
+"using strict"
+
 class V3Prefab {
 
     constructor(factor = 1) {
@@ -48,19 +50,39 @@ class Vector3 {
         return _v3prefab
     }
 
-
     constructor(x, y, z) {
-        this.x = x
-        this.y = y
-        this.z = z
+        /**@type {number} */
+        this._x = x
+        /**@type {number} */
+        this._y = y
+        /**@type {number} */
+        this._z = z
     }
+
+    /**
+     * get x
+     * @returns {number}
+     */
+    get x() { return this._x }
+
+    /**
+     * get y
+     * @returns {number}
+     */
+    get y() { return this._y }
+
+    /**
+     * get z
+     * @returns {number}
+     */
+    get z() { return this._z }
 
     /**
      * get a clone of this vector3
      * @returns {Vector3}
      */
     clone() {
-        return new Vector3(this.x, this.y, this.z)
+        return new Vector3(this._x, this._y, this._z)
     }
 
 
@@ -71,9 +93,9 @@ class Vector3 {
      */
     inverse(situ = false) {
         let ret = situ ? this : this.clone()
-        ret.x = -ret.x
-        ret.y = -ret.y
-        ret.z = -ret.z
+        ret._x = -ret._x
+        ret._y = -ret._y
+        ret._z = -ret._z
         return ret
     }
 
@@ -85,9 +107,9 @@ class Vector3 {
      */
     add(v3, situ = false) {
         let ret = situ ? this : this.clone()
-        ret.x += v3.x
-        ret.y += v3.y
-        ret.z += v3.z
+        ret._x += v3._x
+        ret._y += v3._y
+        ret._z += v3._z
         return ret
     }
 
@@ -99,9 +121,9 @@ class Vector3 {
      */
     sub(v3, situ = false) {
         let ret = situ ? this : this.clone()
-        ret.x -= v3.x
-        ret.y -= v3.y
-        ret.z -= v3.z
+        ret._x -= v3._x
+        ret._y -= v3._y
+        ret._z -= v3._z
         return ret
     }
 
@@ -113,9 +135,9 @@ class Vector3 {
      */
     mul(factor, situ = false) {
         let ret = situ ? this : this.clone()
-        ret.x *= factor
-        ret.y *= factor
-        ret.z *= factor
+        ret._x *= factor
+        ret._y *= factor
+        ret._z *= factor
         return ret
     }
 
@@ -126,19 +148,18 @@ class Vector3 {
      */
     string(compressed = false) {
         if (compressed) {
-            return `${this.x === 0 ? '' : this.x},${this.y === 0 ? '' : this.y},${this.z === 0 ? '' : this.z}`
+            return `${this._x === 0 ? '' : this._x},${this._y === 0 ? '' : this._y},${this._z === 0 ? '' : this._z}`
         } else {
-            return `(${this.x},${this.y},${this.z})`
+            return `(${this._x},${this._y},${this._z})`
         }
     }
 
-    toInd(width, heigth, depth){
-
+    toArray(){
+        return [this.x, this.y, this.z]
     }
 
     // todo : parse(compressed)
 }
-
 
 module.exports = Vector3
 
