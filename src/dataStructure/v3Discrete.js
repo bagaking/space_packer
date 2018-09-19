@@ -1,4 +1,4 @@
-const vector3 = require('./vector3')
+const Vector3 = require('./vector3')
 
 
 class V3Discrete extends Vector3 {

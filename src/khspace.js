@@ -1,45 +1,62 @@
-
-let Vector3 = require('./dataStructure/vector3')
-let V3Discrete = require('./dataStructure/v3Discrete').V3Discrete
-let V3SizeDiscrete = require('./dataStructure/v3Discrete').V3SizeDiscrete
-let CubeArea = require('./dataStructure/cubeArea')
-let CodeMapper = require('./encoding/codeMapper')
+const Vector3 = require('./dataStructure/vector3')
+const V3Discrete = require('./dataStructure/v3Discrete').V3Discrete
+const V3SizeDiscrete = require('./dataStructure/v3Discrete').V3SizeDiscrete
+const CubeArea = require('./dataStructure/cubeArea')
 
 class khspace {
 
-    constructor(width, height, depth) {
-        this.cube = new CubeArea(V3Discrete.fromV3(Vector3.prefab.one), new V3SizeDiscrete(width, height, depth))
+    constructor(width, height, depth, encoder) {
+        this._encoder = encoder
+        this.reset(width, height, depth)
     }
 
-    get algorithm() {
-        return "kh_masked"
+    reset(width, height, depth) {
+        this.cube = new CubeArea(new V3Discrete(0, 0, 0), new V3SizeDiscrete(width, height, depth))
+        this._values = Array.apply(null, Array(this.cube.size.total))
+        this.clear();
     }
 
     get size() {
         return this.cube.size
     }
-    get width() {
-        return this.size.width
-    }
-    get height() {
-        return this.size.height
-    }
-    get depth() {
-        return this.size.depth
-    }
-
-    get plat_total() {
-        return this.size.plat
-    }
-    get total() {
-        return this.size.total
-    }
-    get str_size() {
-        return `${this.width},${this.height},${this.depth}`
-    }
-
 
     get existed() {
         return this._existed
     }
+
+    get count() {
+        return this._values.length
+    }
+
+    clear() {
+        this._existed
+        this._values = this._values.map(Number.prototype.valueOf, 0)
+    }
+
+    set(ind, v) {
+        if (this._values[ind] == 0 && v != 0) this._existed += 1;
+        else if (this._values[ind] != 0 && v == 0) this._existed -= 1;
+        this._values[ind] = v;
+        return this
+    }
+
+    get(ind) {
+        return this._values[ind];
+    }
+
+    serialize() {
+        return this._encoder.serialize(this.size.string(), data);
+    }
+
+    deserialize(data) {
+        let args = data.split(",");
+        let content = args[3]
+        let self = this
+        this.reset(args[0], args[1], args[2]);
+        return this._encoder.deserialize(content, (ind, val) => self.set(ind, val))
+    }
+
+
 }
+
+module.exports = khspace

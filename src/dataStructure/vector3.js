@@ -150,7 +150,7 @@ class Vector3 {
         if (compressed) {
             return `${this._x === 0 ? '' : this._x},${this._y === 0 ? '' : this._y},${this._z === 0 ? '' : this._z}`
         } else {
-            return `(${this._x},${this._y},${this._z})`
+            return `${this._x},${this._y},${this._z}`
         }
     }
 

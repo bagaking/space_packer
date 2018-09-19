@@ -20,9 +20,11 @@ describe('lib/dataStructure/Vector3', function(){
         assert.equal(c.x, 20)
         assert.equal(c.y, 21)
         assert.equal(c.z, 22)
-        c.x += 1
+        c._x += 1
         assert.equal(c.x, 21)
         assert.equal(v3.x, 20)
+        c.y += 1
+        assert.equal(c.y, 21)
     })
 
     it('inverse', function(){
@@ -89,17 +91,17 @@ describe('lib/dataStructure/Vector3', function(){
 
     it('string', function(){
         let str = v3.string()
-        assert.equal(str, "(20,21,22)")
+        assert.equal(str, "20,21,22")
     })
 
     it('string compressed', function(){
-        assert.equal(v3.string(true), "20,21,22")
-        v3.x = 0
-        assert.equal(v3.string(true), ",21,22")
-        v3.z = 0
-        assert.equal(v3.string(true), ",21,")
-        v3.y = 0
-        assert.equal(v3.string(true), ",,")
+        v3.string(true).should.equal("20,21,22")
+        v3._x = 0
+        v3.string(true).should.equal(",21,22")
+        v3._z = 0
+        v3.string(true).should.equal(",21,")
+        v3._y = 0
+        v3.string(true).should.equal(",,")
     })
 
     it('default value', function(){

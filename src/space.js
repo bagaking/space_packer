@@ -3,7 +3,7 @@
 let Vector3 = require('./dataStructure/vector3')
 let CodeMapper = require('./encoding/codeMapper')
 
-let cm = new CodeMapper()
+let cm = new CodeMapper(null)
 
 function space(width = 0, height = 0, depth = 0) {
     this.init(width, height, depth);

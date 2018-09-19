@@ -36,7 +36,7 @@ class CubeArea {
      * @param {number} z
      * @returns {V3SizeDiscrete}
      */
-    pos_in_box(x, y, z) {
+    posInBox(x, y, z) {
         let pMin = this.origin
         let pMax = this.origin.add(this.size).sub(V3Discrete.prefab.one)
         let m = (min, max, v) => Math.min(max, Math.max(min, v))
@@ -46,20 +46,20 @@ class CubeArea {
     }
 
     /**
-     * convert pos to index y * width * depth + x * depth + z
+     * convert pos to index = y * width * depth + x * depth + z
      * @param {V3SizeDiscrete} pos
-     * @returns {*}
+     * @returns {number} uint
      */
-    pos_to_ind(pos) {
+    posToInd(pos) {
         return this.size.pos2Ind(this.origin, pos)
     }
 
     /**
-     *
+     * convert index to pos
      * @param ind
-     * @returns {*}
+     * @returns {V3SizeDiscrete}
      */
-    ind_to_pos (ind) {
+    indToPos (ind) {
         return this.size.indToPos(this.origin, ind)
     }
 
