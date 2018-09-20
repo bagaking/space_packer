@@ -88,11 +88,11 @@ class Vector3 {
 
     /**
      * inverse the vector3
-     * @param {boolean} situ - is it a mutable operation
-     * @returns {Vector3} result - in situ or new vector3
+     * @param {boolean} inPlace - is it a mutable operation
+     * @returns {Vector3} result - in inPlace or new vector3
      */
-    inverse(situ = false) {
-        let ret = situ ? this : this.clone()
+    inverse(inPlace = false) {
+        let ret = inPlace ? this : this.clone()
         ret._x = -ret._x
         ret._y = -ret._y
         ret._z = -ret._z
@@ -102,11 +102,11 @@ class Vector3 {
     /**
      * add a vector3
      * @param {Vector3} v3 - another vector3
-     * @param {boolean} situ - is it a mutable operation
-     * @returns {Vector3} result - in situ or new vector3
+     * @param {boolean} inPlace - is it a mutable operation
+     * @returns {Vector3} result - in inPlace or new vector3
      */
-    add(v3, situ = false) {
-        let ret = situ ? this : this.clone()
+    add(v3, inPlace = false) {
+        let ret = inPlace ? this : this.clone()
         ret._x += v3._x
         ret._y += v3._y
         ret._z += v3._z
@@ -116,11 +116,11 @@ class Vector3 {
     /**
      * sub a vector3
      * @param {Vector3} v3 - another vector3
-     * @param {boolean} situ - is it a mutable operation
-     * @returns {Vector3} result - in situ or new vector3
+     * @param {boolean} inPlace - is it a mutable operation
+     * @returns {Vector3} result - in inPlace or new vector3
      */
-    sub(v3, situ = false) {
-        let ret = situ ? this : this.clone()
+    sub(v3, inPlace = false) {
+        let ret = inPlace ? this : this.clone()
         ret._x -= v3._x
         ret._y -= v3._y
         ret._z -= v3._z
@@ -130,15 +130,19 @@ class Vector3 {
     /**
      * times a factor
      * @param {number} factor - the factor to multiply
-     * @param {boolean} situ - is it a mutable operation
-     * @returns {Vector3} result - in situ or new vector3
+     * @param {boolean} inPlace - is it a mutable operation
+     * @returns {Vector3} result - in inPlace or new vector3
      */
-    mul(factor, situ = false) {
-        let ret = situ ? this : this.clone()
+    mul(factor, inPlace = false) {
+        let ret = inPlace ? this : this.clone()
         ret._x *= factor
         ret._y *= factor
         ret._z *= factor
         return ret
+    }
+
+    clamp(min, max, inPlace = false){
+
     }
 
     /**
