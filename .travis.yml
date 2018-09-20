@@ -8,3 +8,4 @@ node_js:
 
 install:
   - npm install mocha
+  - npm install should
