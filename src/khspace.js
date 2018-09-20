@@ -1,4 +1,3 @@
-const Vector3 = require('./dataStructure/vector3')
 const V3Discrete = require('./dataStructure/v3Discrete').V3Discrete
 const V3SizeDiscrete = require('./dataStructure/v3Discrete').V3SizeDiscrete
 const CubeArea = require('./dataStructure/cubeArea')
