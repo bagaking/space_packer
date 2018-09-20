@@ -63,19 +63,25 @@ class Vector3 {
      * get x
      * @returns {number}
      */
-    get x() { return this._x }
+    get x() {
+        return this._x
+    }
 
     /**
      * get y
      * @returns {number}
      */
-    get y() { return this._y }
+    get y() {
+        return this._y
+    }
 
     /**
      * get z
      * @returns {number}
      */
-    get z() { return this._z }
+    get z() {
+        return this._z
+    }
 
     /**
      * get a clone of this vector3
@@ -133,7 +139,7 @@ class Vector3 {
      * @param {boolean} inPlace - is it a mutable operation
      * @returns {Vector3} result - in inPlace or new vector3
      */
-    mul(factor, inPlace = false) {
+    scl(factor, inPlace = false) {
         let ret = inPlace ? this : this.clone()
         ret._x *= factor
         ret._y *= factor
@@ -141,8 +147,19 @@ class Vector3 {
         return ret
     }
 
-    clamp(min, max, inPlace = false){
-
+    /**
+     * clamp x,y,z
+     * @param {number} min
+     * @param {number} max
+     * @param {boolean} inPlace
+     * @returns {Vector3} result - in inPlace or new vector3
+     */
+    clamp(min, max, inPlace = false) {
+        let ret = inPlace ? this : this.clone()
+        ret._x = ret._x < min ? min : ret._x > max ? max : ret._x;
+        ret._y = ret._y < min ? min : ret._y > max ? max : ret._y;
+        ret._z = ret._z < min ? min : ret._z > max ? max : ret._z;
+        return ret
     }
 
     /**
@@ -158,7 +175,7 @@ class Vector3 {
         }
     }
 
-    toArray(){
+    toArray() {
         return [this.x, this.y, this.z]
     }
 

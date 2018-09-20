@@ -74,15 +74,15 @@ describe('lib/dataStructure/Vector3', function(){
         assert.equal(v3, add2)
     })
 
-    it('add', function(){
-        let add1 = v3.mul(2)
+    it('scl', function(){
+        let add1 = v3.scl(2)
         assert.equal(add1.x, 40)
         assert.equal(add1.y, 42)
         assert.equal(add1.z, 44)
         assert.equal(v3.x, 20)
         assert.equal(v3.y, 21)
         assert.equal(v3.z, 22)
-        let add2 = v3.mul(2, true)
+        let add2 = v3.scl(2, true)
         assert.equal(add2.x, 40)
         assert.equal(add2.y, 42)
         assert.equal(add2.z, 44)
