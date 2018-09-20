@@ -40,3 +40,5 @@ class Bpp {
         return JSON.stringify(this)
     }
 }
+
+module.exports = Bpp

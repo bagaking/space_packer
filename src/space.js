@@ -261,4 +261,6 @@ module.exports = {
     from_general_data,
     to_general_data,
     code_to_img,
+    khspace : require("./khspace"),
+    bpp : require("./bpp")
 }
