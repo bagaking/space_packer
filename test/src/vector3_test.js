@@ -89,6 +89,36 @@ describe('lib/dataStructure/Vector3', function(){
         assert.equal(v3, add2)
     })
 
+    it('mul', function(){
+        let add1 = v3.mul(new Vector3(1,2,3))
+        assert.equal(add1.x, 20)
+        assert.equal(add1.y, 42)
+        assert.equal(add1.z, 66)
+    })
+
+    it('lerp', function(){
+        let add1 = v3.lerp(Vector3.prefab.zero)
+        add1.x.should.equal(10)
+        add1.z.should.equal(11)
+        let add2 = v3.lerp(Vector3.prefab.zero, 0.2)
+        add2.x.should.equal(16)
+    })
+
+    it('clamp', function(){
+        let add1 = v3.clamp(20.5, 21)
+        add1.x.should.equal(20.5)
+        assert.equal(add1.y, 21)
+        assert.equal(add1.z, 21)
+    })
+
+    it('dot', function(){
+        v3.dot(new Vector3(2,3,4)).should.equal(191)
+    })
+
+    it('norm', function(){
+        (new Vector3(120,120,120)).norm.x.should.approximately(Vector3.prefab.one.scl(1/Math.sqrt(3)).x, 0.0000001)
+    })
+
     it('string', function(){
         let str = v3.string()
         assert.equal(str, "20,21,22")
