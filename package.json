@@ -1,7 +1,7 @@
 {
-  "name": "space_packer",
-  "version": "1.0.8",
-  "description": "An space compressor using postion and value",
+  "name": "spaceout",
+  "version": "0.1.1",
+  "description": "bpp system",
   "main": "src/space.js",
   "scripts": {
     "build": "webpack -p",
