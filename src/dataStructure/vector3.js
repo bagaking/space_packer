@@ -85,10 +85,10 @@ class Vector3 {
 
     /**
      * get a clone of this vector3
-     * @returns {Vector3}
+     * @returns {*}
      */
     clone() {
-        return new Vector3(this._x, this._y, this._z)
+        return new this.constructor(this._x, this._y, this._z)
     }
 
     /**
