@@ -2,40 +2,46 @@
 
 class V3Prefab {
 
-    constructor(factor = 1) {
+    constructor(factor = 1, constructor = null) {
         this._factor = factor
+        this._type = constructor
+    }
+
+    setType(constructor){
+        this._type = constructor
+        return this
     }
 
     get zero() {
-        return new Vector3(0, 0, 0)
+        return this._zero || (this._zero = new this._type(0, 0, 0))
     }
 
     get one() {
-        return new Vector3(this._factor, this._factor, this._factor)
+        return new this._type(this._factor, this._factor, this._factor)
     }
 
     get left() {
-        return new Vector3(-this._factor, 0, 0)
+        return new this._type(-this._factor, 0, 0)
     }
 
     get right() {
-        return new Vector3(this._factor, 0, 0)
+        return new this._type(this._factor, 0, 0)
     }
 
     get down() {
-        return new Vector3(0, -this._factor, 0)
+        return new this._type(0, -this._factor, 0)
     }
 
     get up() {
-        return new Vector3(0, this._factor, 0)
+        return new this._type(0, this._factor, 0)
     }
 
     get back() {
-        return new Vector3(0, 0, -this._factor)
+        return new this._type(0, 0, -this._factor)
     }
 
     get forward() {
-        return new Vector3(0, 0, this._factor)
+        return new this._type(0, 0, this._factor)
     }
 }
 
@@ -47,7 +53,7 @@ const _v3prefab = new V3Prefab()
 class Vector3 {
 
     static get prefab() {
-        return _v3prefab
+        return _v3prefab.setType(Vector3)
     }
 
     constructor(x, y, z) {
@@ -57,6 +63,7 @@ class Vector3 {
         this._y = y
         /**@type {number} */
         this._z = z
+        this.self = this.strict
     }
 
     /**
@@ -83,6 +90,10 @@ class Vector3 {
         return this._z
     }
 
+    get strict(){
+        return this
+    }
+
     /**
      * get a clone of this vector3
      * @returns {*}
@@ -102,7 +113,7 @@ class Vector3 {
         ret._x *= scalar
         ret._y *= scalar
         ret._z *= scalar
-        return ret
+        return ret.strict
     }
 
     /**
@@ -125,7 +136,7 @@ class Vector3 {
         ret._x += v3._x
         ret._y += v3._y
         ret._z += v3._z
-        return ret
+        return ret.strict
     }
 
     /**
@@ -139,7 +150,7 @@ class Vector3 {
         ret._x -= v3._x
         ret._y -= v3._y
         ret._z -= v3._z
-        return ret
+        return ret.strict
     }
 
     /**
@@ -153,7 +164,7 @@ class Vector3 {
         ret._x *= v3.x
         ret._y *= v3.y
         ret._z *= v3.z
-        return ret
+        return ret.strict
     }
 
     /**
@@ -179,7 +190,7 @@ class Vector3 {
         ret._x = ret._x < min ? min : ret._x > max ? max : ret._x;
         ret._y = ret._y < min ? min : ret._y > max ? max : ret._y;
         ret._z = ret._z < min ? min : ret._z > max ? max : ret._z;
-        return ret
+        return ret.strict
     }
 
 

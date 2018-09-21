@@ -10,7 +10,7 @@ class khspace {
     }
 
     reset(width, height, depth) {
-        this.cube = new CubeArea(new V3Discrete(0, 0, 0), new V3SizeDiscrete(width, height, depth))
+        this.cube = new CubeArea(V3Discrete.prefab.zero, new V3SizeDiscrete(width, height, depth))
         this._values = Array.apply(null, Array(this.cube.size.total))
         this.clear();
     }

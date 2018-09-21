@@ -1,23 +1,29 @@
 const Vector3 = require('./vector3')
 
 
+const _v3Dprefab = new Vector3.prefab.constructor()
+
+
 class V3Discrete extends Vector3 {
 
+    static get prefab() {
+        return _v3Dprefab.setType(V3Discrete)
+    }
+
+    get strict(){
+        this._x = Math.floor(this.x)
+        this._y = Math.floor(this.y)
+        this._z = Math.floor(this.z)
+        return this
+    }
+
     constructor(x, y, z) {
-        super(Math.floor(x), Math.floor(y), Math.floor(z))
+        super(x, y, z)
     }
 
 }
 
 class V3SizeDiscrete extends V3Discrete {
-
-    /**
-     * convert from vector3
-     * @param {Vector3} v3
-     */
-    static fromV3(v3){
-        return new V3Discrete(v3.x, v3.y, v3.z)
-    }
 
     constructor(x, y, z) {
         super(Math.max(0,x), Math.max(0,y), Math.max(0,z))
