@@ -7,11 +7,6 @@ class V3Prefab {
         this._type = constructor
     }
 
-    setType(constructor){
-        this._type = constructor
-        return this
-    }
-
     get zero() {
         return this._zero || (this._zero = new this._type(0, 0, 0))
     }
@@ -45,7 +40,11 @@ class V3Prefab {
     }
 }
 
-const _v3prefab = new V3Prefab()
+let symV3Prefab = Symbol("symV3Prefab")
+let _g = global
+if(_g === undefined || _g === null) _g = window
+if(_g === undefined || _g === null) _g = {}
+_g[symV3Prefab] = {}
 
 /**
  * Vector3
@@ -53,7 +52,11 @@ const _v3prefab = new V3Prefab()
 class Vector3 {
 
     static get prefab() {
-        return _v3prefab.setType(Vector3)
+        let pref = _g[symV3Prefab][Symbol.for(this)]
+        if(pref === undefined || pref === null){
+            pref = _g[symV3Prefab][Symbol.for(this)] = new V3Prefab(1, this)
+        }
+        return pref
     }
 
     constructor(x, y, z) {

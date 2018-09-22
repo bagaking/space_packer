@@ -1,14 +1,6 @@
 const Vector3 = require('./vector3')
 
-
-const _v3Dprefab = new Vector3.prefab.constructor()
-
-
 class V3Discrete extends Vector3 {
-
-    static get prefab() {
-        return _v3Dprefab.setType(V3Discrete)
-    }
 
     get strict(){
         this._x = Math.floor(this.x)
