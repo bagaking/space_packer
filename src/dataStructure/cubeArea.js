@@ -63,6 +63,11 @@ class CubeArea {
         return this.size.indToPos(this.origin, ind)
     }
 
+
+    inspect() {
+        return `cube:<origin:${this.origin.toString()} ,size:${this.size.toString()}>`
+    }
+
 }
 
 module.exports = CubeArea

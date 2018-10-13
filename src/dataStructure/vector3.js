@@ -229,16 +229,16 @@ class Vector3 {
      * @param {boolean} compressed - should be compress ?
      * @returns {string} result - the string
      */
-    string(compressed = false) {
-        if (compressed) {
-            return `${this._x === 0 ? '' : this._x},${this._y === 0 ? '' : this._y},${this._z === 0 ? '' : this._z}`
-        } else {
-            return `${this._x},${this._y},${this._z}`
-        }
+    toString(compress = false) {
+        return compress ? `${this._x ? this._x : ''},${this._y ? this._y : ''},${this._z ? this._z : ''}` : `(${this._x},${this._y},${this._z})`
     }
 
     toArray() {
         return [this.x, this.y, this.z]
+    }
+
+    inspect() {
+        return "v3:" + this.toString()
     }
 
     // todo : parse(compressed)

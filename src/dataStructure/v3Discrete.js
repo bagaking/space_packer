@@ -2,7 +2,7 @@ const Vector3 = require('./vector3')
 
 class V3Discrete extends Vector3 {
 
-    get strict(){
+    get strict() {
         this._x = Math.floor(this.x)
         this._y = Math.floor(this.y)
         this._z = Math.floor(this.z)
@@ -13,12 +13,16 @@ class V3Discrete extends Vector3 {
         super(x, y, z)
     }
 
+    inspect() {
+        return "v3d:" + this.toString()
+    }
+
 }
 
 class V3SizeDiscrete extends V3Discrete {
 
     constructor(x, y, z) {
-        super(Math.max(0,x), Math.max(0,y), Math.max(0,z))
+        super(Math.max(0, x), Math.max(0, y), Math.max(0, z))
     }
 
     get width() {
@@ -46,7 +50,7 @@ class V3SizeDiscrete extends V3Discrete {
      * @param {V3Discrete} origin
      * @param {V3Discrete} pos
      */
-    pos2Ind(origin, pos){
+    pos2Ind(origin, pos) {
         let posOffset = pos.sub(origin)
         return posOffset.y * this.plat + posOffset.x * this.depth + posOffset.z;
     }
@@ -56,7 +60,7 @@ class V3SizeDiscrete extends V3Discrete {
      * @param {V3Discrete} origin
      * @param {number} ind
      */
-    indToPos(origin, ind){
+    indToPos(origin, ind) {
         let realInd = ind >= this.total ? this.total - 1 : ind
         return V3SizeDiscrete(
             Math.floor(realInd % this.plat) / this.plat,
@@ -64,6 +68,11 @@ class V3SizeDiscrete extends V3Discrete {
             ind % this.plat
         )
     }
+
+    inspect() {
+        return "v3size:" + this.toString()
+    }
+
 }
 
 module.exports = {
