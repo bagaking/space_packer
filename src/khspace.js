@@ -4,8 +4,9 @@ const CubeArea = require('./dataStructure/cubeArea')
 
 class khspace {
 
-    constructor(width, height, depth, encoder) {
+    constructor(width, height, depth, encoder, refs) {
         this._encoder = encoder
+        this._refs = refs
         this.reset(width, height, depth)
     }
 
@@ -44,16 +45,32 @@ class khspace {
     }
 
     serialize() {
-        return this._encoder.serialize(this.size.string(), data);
+        if (typeof this._refs === "undefined" || this._refs === null) {
+            //return this._encoder.serialize(this.size.string(), data); //？
+            return this._encoder.serialize(this._values, this.size.string());
+        }
+        else {
+            return this._encoder.serialize(this._refs);
+        }
+
     }
 
-    deserialize(data) {
-        let args = data.split(",");
-        let content = args[3]
-        let self = this
-        this.reset(args[0], args[1], args[2]);
-        return this._encoder.deserialize(content, (ind, val) => self.set(ind, val))
+    deserialize(data, supply) {
+        if (typeof this._refs === "undefined" || this._refs === null) {
+            let args = data.split(",");
+            let content = args[3]
+            let self = this
+            this.reset(args[0], args[1], args[2]);
+            return this._encoder.deserialize(content, (ind, val) => self.set(ind, val))
+        }
+        else {
+            this._refs = this._encoder.deserialize(data, supply);
+            return this._refs;
+        }
+
     }
+
+
 
 
 }
