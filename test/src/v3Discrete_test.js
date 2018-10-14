@@ -1,5 +1,4 @@
-const V3Discrete = require('../../src/dataStructure/v3Discrete').V3Discrete
-const Vector3 = require('../../src/dataStructure/Vector3')
+const {Vector3, V3Discrete} = require('../../src/measure')
 const should = require('should');
 
 let v3 = null

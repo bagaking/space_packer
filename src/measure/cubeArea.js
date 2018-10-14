@@ -1,5 +1,4 @@
-const V3SizeDiscrete = require('./v3Discrete').V3SizeDiscrete
-const V3Discrete = require('./v3Discrete').V3Discrete
+const {V3SizeDiscrete, V3Discrete} = require('./v3Discrete')
 
 class CubeArea {
 

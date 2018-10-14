@@ -1,5 +1,4 @@
-const {V3Discrete, V3SizeDiscrete} = require('./dataStructure/v3Discrete')
-const CubeArea = require('./dataStructure/cubeArea')
+const {V3Discrete, V3SizeDiscrete, CubeArea} = require('./measure')
 
 class khspace {
 

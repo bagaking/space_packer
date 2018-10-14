@@ -1,6 +1,6 @@
 "using strict"
 
-let Vector3 = require('./dataStructure/vector3')
+let {Vector3} = require('./measure')
 let CodeMapper = require('./encoding/codeMapper')
 
 let cm = new CodeMapper(null)
@@ -261,6 +261,6 @@ module.exports = {
     from_general_data,
     to_general_data,
     code_to_img,
-    khspace : require("./khspace"),
-    bpp : require("./bpp")
+    khspace: require("./khspace"),
+    bpp: require("./bpp")
 }
