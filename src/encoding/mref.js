@@ -42,6 +42,9 @@ class Mref {
                     data[`p_${ref.position}`] = await uIpfs.getIpfsHash(bpp.string);
 
                 }
+                else {
+                    throw new Error("bpp method not support");
+                }
             }
         }
         return data;
@@ -80,9 +83,6 @@ class Mref {
         }
         return refs;
     }
-
-
-
 
 
 }
