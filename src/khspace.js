@@ -1,5 +1,6 @@
 const {V3Discrete, V3SizeDiscrete, CubeArea} = require('./measure')
 
+
 class khspace {
 
     constructor(width, height, depth, encoder, refs) {
@@ -42,13 +43,13 @@ class khspace {
         return this._values[ind];
     }
 
-    serialize() {
+    async serialize() {
         if (typeof this._refs === "undefined" || this._refs === null) {
             //return this._encoder.serialize(this.size.string(), data); //？
             return this._encoder.serialize(this._values, this.size.string());
         }
         else {
-            return this._encoder.serialize(this._refs);
+            return (await this._encoder.serialize(this._refs));
         }
 
     }

@@ -47,21 +47,26 @@ class Bpp {
     }
 
     get string() {
-        return JSON.stringify(this)
+        return JSON.stringify({
+            version: this.version,
+            method: this.method,
+            data: this.data
+        })
     }
 
-    pack(sp) {
+    async pack(sp) {
         this._space = sp || this._space;
-        this.data = this._space.serialize();
+        this.data = await this._space.serialize();
         return this
     }
 
     unpack(supply) {
-        this._space = new khspace(0, 0, 0, this.encoder, null);
         if (this.method === "ccarr") {
+            this._space = new khspace(0, 0, 0, this.encoder, null);
             return this._space.deserialize(this.data);
         }
         else {
+            this._space = new khspace(0, 0, 0, this.encoder, []);
             return this._space.deserialize(this.data, supply);
         }
 

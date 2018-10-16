@@ -1,5 +1,6 @@
 
-const ipfshash = require("ipfshash");
+const uIpfs = require("../utils/ipfsUtil");
+
 
 class Mref {
 
@@ -8,55 +9,74 @@ class Mref {
      *
      * @param refs sample like [{"position": , "type": , "data"}, ...]
      */
-    serialize(refs) {
+    async serialize(refs) {
         let data = {};
-        refs.forEach((ref) => {
+        for (let ref of refs) {
             if (ref.type === "hash") {
                 data[`p_${ref.position}`] = ref.data;
             }
             else {
                 let bpp = ref.data;
-                if (typeof ref.data === "string") {
-                    bpp = JSON.parse(ref.data);
+                if (typeof bpp === "string") {
+                    bpp = JSON.parse(bpp);
                 }
+                let Bpp = require("../bpp");
+                bpp = new Bpp(bpp.method, bpp.data);
                 if (bpp.method === "ccarr") {
-                    data[`p_${ref.position}`] = ipfshash.getIpfsHash(ref.data);
+                    data[`p_${ref.position}`] = await uIpfs.getIpfsHash(bpp.string);
                 }
                 else if (bpp.method === "mref") {
-                    data[`p_${ref.position}`] = ipfshash.getIpfsHash(bpp.unpack().serialize());
+                    for (let key of Object.keys(bpp.data)) {
+                        let subBpp = bpp.data[key];
+                        try {
+                            if (typeof subBpp === "string" && JSON.parse(subBpp)) {
+                                subBpp = JSON.parse(subBpp);
+                            }
+                        }
+                        catch (e) {
+                            continue;
+                        }
+                        subBpp.unpack();
+                        bpp.data[key] = await uIpfs.getIpfsHash(await subBpp.pack().string);
+                    }
+                    data[`p_${ref.position}`] = await uIpfs.getIpfsHash(bpp.string);
+
                 }
             }
-        });
+        }
         return data;
     }
 
 
     deserialize(data, supply) {
         let refs = [];
+
         for (let key of Object.keys(data)) {
 
-            let postion = key.split("_")[1];
+            let position = key.split("_")[1];
             let hash = data[key];
-
-            if (supply.hasOwnProperty(hash)) {
+            if (typeof supply === "object" && supply.hasOwnProperty(hash)) {
+                let bpp = supply[hash];
+                if (typeof bpp === "string") {
+                    bpp = JSON.parse(bpp);
+                }
+                let Bpp = require("../bpp");
+                bpp = new Bpp(bpp.method, bpp.data);
                 let obj = {
-                    "postion": postion,
+                    "position": position,
+                    "type": bpp.method,
+                    "data": bpp
+                };
+                refs.push(obj);
+            }
+            else {
+                let obj = {
+                    "position": position,
                     "type": "hash",
                     "data": hash
                 };
                 refs.push(obj);
-                continue;
             }
-            let bpp = supply[hash];
-            if (typeof bpp === "string") {
-                bpp = JSON.parse(bpp);
-            }
-            let obj = {
-                "postion": postion,
-                "type": bpp.method,
-                "data": bpp
-            };
-            refs.push(obj);
         }
         return refs;
     }
