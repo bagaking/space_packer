@@ -54,12 +54,24 @@ class Bpp {
         })
     }
 
+    /**
+     *
+     * @param sp space instance
+     * @returns {Promise<Bpp>}
+     */
     async pack(sp) {
         this._space = sp || this._space;
         this.data = await this._space.serialize();
         return this
     }
 
+    /**
+     *
+     * @param {Object} supply {hash: bpp} sample like {
+        "QmNfkDqfAGWp96EeTy2xZzCzwnrt2RG3a8vgBjH8WqRCQ1": bpp,
+     }
+     * @returns {*}
+     */
     unpack(supply) {
         if (this.method === "ccarr") {
             this._space = new khspace(0, 0, 0, this.encoder, null);
@@ -67,7 +79,7 @@ class Bpp {
         }
         else {
             this._space = new khspace(0, 0, 0, this.encoder, []);
-            return this._space.deserialize(this.data, supply);
+            return this._space.deserialize(this.data, supply); // return refs
         }
 
     }

@@ -110,16 +110,20 @@ describe("bpp", function () {
 
             console.log(bpp3.string);
 
-
-
             let supply = {
+                "QmNfkDqfAGWp96EeTy2xZzCzwnrt2RG3a8vgBjH8WqRCQ1": bpp1,
+            };
+            ret = bpp2.unpack(supply);
+            console.log("bpp2 unpack: ", ret);
+
+            supply = {
                 "QmNfkDqfAGWp96EeTy2xZzCzwnrt2RG3a8vgBjH8WqRCQ1": bpp1,
                 "QmZdPQ8nJPFDkRoHQrosZJfVv4s2FE8ZCp9YL8g1BF1hGU": bpp2
             };
 
             ret = bpp3.unpack(supply);
 
-            console.log(ret);
+            console.log("ret: ", ret, ret[1].data);
 
             let bpp4 = new Bpp("mref");
             await bpp4.pack(bpp3.space);
