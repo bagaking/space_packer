@@ -140,7 +140,7 @@ space.prototype = {
     },
 }
 
-parse = function (code) {
+function parse (code) {
     let data = new space(0, 0, 0);
     return {
         poses: data.deserialize(code),
@@ -148,7 +148,7 @@ parse = function (code) {
     }
 }
 
-from_general_data = function (node_lst, pos_getter, value_getter) {
+function from_general_data (node_lst, pos_getter, value_getter) {
     let min = {x: 99999, y: 99999, z: 99999};
     let max = {x: -99999, y: -99999, z: -99999};
 
@@ -177,7 +177,7 @@ from_general_data = function (node_lst, pos_getter, value_getter) {
     return new_space;
 }
 
-to_general_data = function (fn_data_node_creator) {
+function to_general_data (fn_data_node_creator) {
     let node_lst = []
     for (let x = 0; x < this.width; x++) {
         for (let y = 0; y < this.height; y++) {
@@ -192,10 +192,10 @@ to_general_data = function (fn_data_node_creator) {
 }
 
 
-code_to_img = function (color_table, code) {
+function code_to_img (color_table, code) {
     let data = new space(0, 0, 0);
     let poses = data.deserialize(code);
-    newdata = new Array()
+    let newdata = new Array()
 
     if (color_table == null) {
         color_table = [
@@ -212,7 +212,7 @@ code_to_img = function (color_table, code) {
     }
 
 
-    draw = function (x, y, v) {
+    let draw = function (x, y, v) {
         newdata[x * space.height + y] = (color_table[v])
     }
     for (let x = 0; x < space.width; x++) {
@@ -229,7 +229,7 @@ code_to_img = function (color_table, code) {
         }
     }
 
-    var canvas = document.createElement('canvas');
+    let canvas = document.createElement('canvas');
     canvas.id = "CursorLayer";
     canvas.style.zIndex = 8;
     canvas.style.position = "absolute";
@@ -237,7 +237,7 @@ code_to_img = function (color_table, code) {
     let size = 15
     canvas.width = space.width * size;
     canvas.height = space.height * size;
-    var ctx = canvas.getContext("2d");
+    let ctx = canvas.getContext("2d");
 
     for (let x = 0; x < space.width; x++) {
         for (let y = 0; y < space.height; y++) {
@@ -251,7 +251,8 @@ code_to_img = function (color_table, code) {
             }
         }
     }
-    return jpegDataUri = canvas.toDataURL();
+    let jpegDataUri = canvas.toDataURL();
+    return jpegDataUri
 }
 
 
