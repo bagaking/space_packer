@@ -5,7 +5,7 @@
 
 # Space out
 
-An engine used to describe space.
+spaceout is a simple wrapper and compression library for describing spatial and reference structures and its hash methods.
 
 ## Install
 
