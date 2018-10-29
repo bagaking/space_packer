@@ -67,9 +67,9 @@ class V3DSize extends V3D {
      */
     scroll(posB) {
         return new V3DSize(
-            posB.x >= 0 ? posB.x % this.width : (posB.x % this.width + this.width) % this.width,
-            posB.y >= 0 ? posB.y % this.height : (posB.y % this.height + this.height) % this.height,
-            posB.z >= 0 ? posB.z % this.depth : (posB.z % this.depth + this.depth) % this.depth,
+            posB.x >= 0 ? (posB.x % this.width) : ((posB.x % this.width + this.width) % this.width),
+            posB.y >= 0 ? (posB.y % this.height) : ((posB.y % this.height + this.height) % this.height),
+            posB.z >= 0 ? (posB.z % this.depth) : ((posB.z % this.depth + this.depth) % this.depth),
         )
     }
 
@@ -81,8 +81,8 @@ class V3DSize extends V3D {
         let start = this.scroll(from);
         let end = this.scroll(to);
         for (let i = start.x; i < end.x; i++) {
-            for (let j = start.y; j < end.y; i++) {
-                for (let k = start.z; k < end.z; i++) {
+            for (let j = start.y; j < end.y; j++) {
+                for (let k = start.z; k < end.z; k++) {
                     fnEach(this.posB2Ind([i, j, k]), i, j, k);
                 }
             }
