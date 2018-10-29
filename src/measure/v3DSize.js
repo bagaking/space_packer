@@ -68,8 +68,8 @@ class V3DSize extends V3D {
     scroll(posB) {
         return new V3DSize(
             posB.x >= 0 ? posB.x % this.width : (posB.x % this.width + this.width) % this.width,
-            posB.y >= 0 ? posB.y % this.height : (posB.x % this.height + this.height) % this.height,
-            posB.z >= 0 ? posB.z % this.depth : (posB.x % this.depth + this.depth) % this.depth,
+            posB.y >= 0 ? posB.y % this.height : (posB.y % this.height + this.height) % this.height,
+            posB.z >= 0 ? posB.z % this.depth : (posB.z % this.depth + this.depth) % this.depth,
         )
     }
 

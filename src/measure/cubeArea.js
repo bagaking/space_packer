@@ -88,11 +88,11 @@ class CubeArea {
 
     /**
      * convert box pos to index = y * width * depth + x * depth + z
-     * @param {V3DSize} pos
+     * @param {V3D | Array} pos
      * @returns {number} uint
      */
     posB2Ind(pos) {
-        return this.size.pos2Ind(V3D.prefab.zero, pos);
+        return this.size.posB2Ind(pos);
     }
 
     /**
