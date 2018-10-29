@@ -1,42 +1,6 @@
-const Vector3 = require('./vector3')
+const V3D = require('./v3D')
 
-class V3Discrete extends Vector3 {
-
-    get strict() {
-        this._x = this._x | 0
-        this._y = this._y | 0
-        this._z = this._z | 0
-        return this
-    }
-
-    get x(){
-        return this._x | 0
-    }
-
-    get y(){
-        return this._y | 0
-    }
-
-    get z(){
-        return this._z | 0
-    }
-
-    constructor(x, y, z) {
-        super(x, y, z)
-        this.strict
-    }
-
-    toString(compress = false) {
-        return super.toString(compress)
-    }
-
-    inspect() {
-        return "v3d:" + this.toString()
-    }
-
-}
-
-class V3SizeDiscrete extends V3Discrete {
+class V3DSize extends V3D {
 
     constructor(x, y, z) {
         super(Math.max(0, x), Math.max(0, y), Math.max(0, z))
@@ -64,8 +28,8 @@ class V3SizeDiscrete extends V3Discrete {
 
     /**
      * convert pos to ind
-     * @param {V3Discrete} origin
-     * @param {V3Discrete} pos
+     * @param {V3D} origin
+     * @param {V3D} pos
      */
     pos2Ind(origin, pos) {
         let posOffset = pos.sub(origin)
@@ -74,12 +38,12 @@ class V3SizeDiscrete extends V3Discrete {
 
     /**
      * convert ind to pos
-     * @param {V3Discrete} origin
+     * @param {V3D} origin
      * @param {number} ind
      */
-    indToPos(origin, ind) {
+    ind2Pos(origin, ind) {
         let realInd = ind >= this.total ? this.total - 1 : ind
-        return V3SizeDiscrete(
+        return new V3DSize(
             Math.floor(realInd % this.plat) / this.plat,
             Math.floor(realInd / this.plat),
             ind % this.plat
@@ -92,7 +56,4 @@ class V3SizeDiscrete extends V3Discrete {
 
 }
 
-module.exports = {
-    V3Discrete,
-    V3SizeDiscrete
-}
+module.exports = V3DSize

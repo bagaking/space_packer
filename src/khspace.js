@@ -1,4 +1,4 @@
-const {V3Discrete, V3SizeDiscrete, CubeArea} = require('./measure')
+const {V3D, V3DSize, CubeArea} = require('./measure')
 
 
 class khspace {
@@ -10,7 +10,7 @@ class khspace {
     }
 
     reset(width, height, depth) {
-        this.cube = new CubeArea(V3Discrete.prefab.zero, new V3SizeDiscrete(width, height, depth))
+        this.cube = new CubeArea(V3D.prefab.zero, new V3DSize(width, height, depth))
         this._values = Array.apply(null, Array(this.cube.size.total))
         this.clear();
     }

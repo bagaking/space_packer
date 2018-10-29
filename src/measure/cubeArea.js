@@ -1,4 +1,5 @@
-const {V3SizeDiscrete, V3Discrete} = require('./v3Discrete')
+const V3Discrete = require('./v3D')
+const V3SizeDiscrete = require('./v3DSize')
 
 class CubeArea {
 
@@ -82,7 +83,7 @@ class CubeArea {
      * @returns {V3SizeDiscrete}
      */
     ind2PosA(ind) {
-        return this.size.indToPos(this.origin, ind)
+        return this.size.ind2Pos(this.origin, ind)
     }
 
     /**
@@ -100,8 +101,10 @@ class CubeArea {
      * @returns {V3SizeDiscrete}
      */
     ind2PosB(ind) {
-        return this.size.indToPos(V3Discrete.prefab.zero, ind)
+        return this.size.ind2Pos(V3Discrete.prefab.zero, ind)
     }
+
+
 
 
     inspect() {

@@ -15,6 +15,10 @@ class V3Prefab {
         return new this._type(this._factor, this._factor, this._factor)
     }
 
+    get minusOne() {
+        return new this._type(-this._factor, -this._factor, -this._factor)
+    }
+
     get left() {
         return new this._type(-this._factor, 0, 0)
     }
