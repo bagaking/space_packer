@@ -45,21 +45,62 @@ class CubeArea {
     }
 
     /**
-     * convert pos to index = y * width * depth + x * depth + z
-     * @param {V3SizeDiscrete} pos
-     * @returns {number} uint
+     * absolute position to box position
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {V3Discrete}
      */
-    posToInd(pos) {
-        return this.size.pos2Ind(this.origin, pos)
+    posA2B(x,y,z){
+        return new V3Discrete(x - this.origin.x, y - this.origin.y, z - this.origin.z);
     }
 
     /**
-     * convert index to pos
+     * box position to absolute position
+     * @param {number} x
+     * @param {number} y
+     * @param {number} z
+     * @return {V3Discrete}
+     */
+    posB2A(x,y,z){
+        return new V3Discrete(x + this.origin.x, y + this.origin.y, z + this.origin.z);
+    }
+
+
+    /**
+     * convert absolute pos to index = y * width * depth + x * depth + z
+     * @param {V3SizeDiscrete} pos
+     * @returns {number} uint
+     */
+    posA2Ind(pos) {
+        return this.size.pos2Ind(this.origin, pos);
+    }
+
+    /**
+     * convert index to absolute pos
      * @param ind
      * @returns {V3SizeDiscrete}
      */
-    indToPos (ind) {
+    ind2PosA(ind) {
         return this.size.indToPos(this.origin, ind)
+    }
+
+    /**
+     * convert box pos to index = y * width * depth + x * depth + z
+     * @param {V3SizeDiscrete} pos
+     * @returns {number} uint
+     */
+    posB2Ind(pos) {
+        return this.size.pos2Ind(V3Discrete.prefab.zero, pos);
+    }
+
+    /**
+     * convert index to box pos
+     * @param ind
+     * @returns {V3SizeDiscrete}
+     */
+    ind2PosB(ind) {
+        return this.size.indToPos(V3Discrete.prefab.zero, ind)
     }
 
 
