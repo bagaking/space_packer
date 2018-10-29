@@ -13,5 +13,6 @@ module.exports = {
     to_general_data,
     code_to_img,
     khspace: require("./src/khspace"),
-    Bpp: require("./src/bpp")
+    Bpp: require("./src/bpp"),
+    measure: require("./src/measure")
 };
