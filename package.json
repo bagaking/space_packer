@@ -1,8 +1,8 @@
 {
   "name": "spaceout",
-  "version": "0.1.3-beta.2",
+  "version": "0.1.3-beta.3",
   "description": "spaceout is a simple wrapper and compression library for describing spatial and reference structures and its hash methods.",
-  "main": "src/space.js",
+  "main": "index.js",
   "scripts": {
     "build": "webpack -p",
     "babel": "babel src -d lib -s inline",
