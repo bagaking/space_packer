@@ -32,8 +32,19 @@ class V3DSize extends V3D {
      * @param {V3D} pos
      */
     pos2Ind(origin, pos) {
-        let posOffset = pos.sub(origin)
-        return posOffset.y * this.plat + posOffset.x * this.depth + posOffset.z;
+        return this.posB2Ind(pos.sub(origin));
+    }
+
+    /**
+     * box pos to ind
+     * @param {V3D | array} pos
+     */
+    posB2Ind(pos) {
+        if (pos instanceof Array) {
+            return pos[1] * this.plat + pos[0] * this.depth + pos[2];
+        } else {
+            return pos.y * this.plat + pos.x * this.depth + pos.z;
+        }
     }
 
     /**
@@ -49,6 +60,35 @@ class V3DSize extends V3D {
             ind % this.plat
         )
     }
+
+    /**
+     * scroll origin in the box
+     * @param {V3D} posB - pos in box
+     */
+    scroll(posB) {
+        return new V3DSize(
+            posB.x >= 0 ? posB.x % this.width : (posB.x % this.width + this.width) % this.width,
+            posB.y >= 0 ? posB.y % this.height : (posB.x % this.height + this.height) % this.height,
+            posB.z >= 0 ? posB.z % this.depth : (posB.x % this.depth + this.depth) % this.depth,
+        )
+    }
+
+    /**
+     * for each ind in the box
+     * @param fnEach
+     */
+    forEachPosB(from, to, fnEach) {
+        let start = this.scroll(from);
+        let end = this.scroll(to);
+        for (let i = start.x; i < end.x; i++) {
+            for (let j = start.y; j < end.y; i++) {
+                for (let k = start.z; k < end.z; i++) {
+                    fnEach(this.posB2Ind([i, j, k]), i, j, k);
+                }
+            }
+        }
+    }
+
 
     inspect() {
         return "v3size:" + this.toString()
