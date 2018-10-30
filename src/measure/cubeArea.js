@@ -105,6 +105,25 @@ class CubeArea {
     }
 
 
+    /**
+     * get if the absolute pos inside the cube
+     * @param {V3D} posA
+     * @return {boolean}
+     */
+    posAInside(posA) {
+        return this.posBInside(pos.sub(this.origin))
+    }
+
+    /**
+     * get if the box pos inside the cube
+     * @param {V3D | Array} posB
+     * @returns {boolean}
+     */
+    posBInside(posB) {
+        return this.size.posB2Ind(posB)
+    }
+
+
 
 
     inspect() {

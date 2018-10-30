@@ -48,6 +48,23 @@ class V3DSize extends V3D {
     }
 
     /**
+     * box pos to ind
+     * @param {V3D | array} pos
+     */
+    posB2Inside(pos) {
+        if (pos instanceof Array) {
+            return pos[0] >= 0 && pos[0] < this.width &&
+                pos[1] >= 0 && pos[1] < this.height &&
+                pos[2] >= 0 && pos[2] < this.depth
+        } else {
+            return pos.x >= 0 && pos.x < this.width &&
+                pos.y >= 0 && pos.y < this.height &&
+                pos.z >= 0 && pos.z < this.depth
+        }
+    }
+
+
+    /**
      * convert ind to pos
      * @param {V3D} origin
      * @param {number} ind
@@ -80,7 +97,7 @@ class V3DSize extends V3D {
     forEachPosB(fnEach, from = V3D.prefab.zero, to = V3D.prefab.minusOne) {
         let start = this.scroll(from);
         let end = this.scroll(to);
-        console.log(" - ", start, end);
+
         for (let i = start.x; i <= end.x; i++) {
             for (let j = start.y; j <= end.y; j++) {
                 for (let k = start.z; k <= end.z; k++) {
