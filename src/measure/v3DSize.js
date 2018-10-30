@@ -51,7 +51,7 @@ class V3DSize extends V3D {
      * box pos to ind
      * @param {V3D | array} pos
      */
-    posB2Inside(pos) {
+    posBInside(pos) {
         if (pos instanceof Array) {
             return pos[0] >= 0 && pos[0] < this.width &&
                 pos[1] >= 0 && pos[1] < this.height &&
