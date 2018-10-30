@@ -1,16 +1,21 @@
 const V3D = require('./v3D')
 const V3DSize = require('./v3DSize')
 
-class CubeArea {
+class CubeArea extends V3DSize{
 
     /**
      * Create a cubeArea
      * @param {V3D} v3Origin
-     * @param {V3DSize} v3Size
+     * @param {V3DSize | Array} v3Size
      */
-    constructor(v3Origin, v3Size) {
+    constructor(v3Origin, size) {
+        if(size instanceof Array) {
+            super(size[0], size[1], size[2]);
+        }else{
+            super(size.width, size.height, size.depth);
+        }
         this._origin = v3Origin
-        this._size = v3Size
+        this._size = this
     }
 
     /**
@@ -31,18 +36,22 @@ class CubeArea {
 
     /**
      * shrink the pos in the box
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
+     * @param {V3D | array} absolute position
      * @returns {V3D}
      */
-    posInBox(x, y, z) {
+    restrictPos(pos) {
         let pMin = this.origin
         let pMax = this.origin.add(this.size).sub(V3D.prefab.one)
         let m = (min, max, v) => Math.min(max, Math.max(min, v))
-        return new V3D(
-            m(pMin.x, pMax.x, x), m(pMin.y, pMax.y, y), m(pMin.z, pMax.z, z)
-        )
+        if(pos instanceof  Array){
+            return new V3D(
+                m(pMin.x, pMax.x, pos[0]), m(pMin.y, pMax.y, pos[1]), m(pMin.z, pMax.z, pos[2])
+            )
+        } else {
+            return new V3D(
+                m(pMin.x, pMax.x, pos.x), m(pMin.y, pMax.y, pos.y), m(pMin.z, pMax.z, pos.z)
+            )
+        }
     }
 
     /**
@@ -67,14 +76,13 @@ class CubeArea {
         return new V3D(x + this.origin.x, y + this.origin.y, z + this.origin.z);
     }
 
-
     /**
      * convert absolute pos to index = y * width * depth + x * depth + z
      * @param {V3DSize} pos
      * @returns {number} uint
      */
     posA2Ind(pos) {
-        return this.size.pos2Ind(this.origin, pos);
+        return this.size.posB2Ind(pos.sub(this.origin));
     }
 
     /**
@@ -83,25 +91,7 @@ class CubeArea {
      * @returns {V3DSize}
      */
     ind2PosA(ind) {
-        return this.size.ind2Pos(this.origin, ind)
-    }
-
-    /**
-     * convert box pos to index = y * width * depth + x * depth + z
-     * @param {V3D | Array} pos
-     * @returns {number} uint
-     */
-    posB2Ind(pos) {
-        return this.size.posB2Ind(pos);
-    }
-
-    /**
-     * convert index to box pos
-     * @param ind
-     * @returns {V3DSize}
-     */
-    ind2PosB(ind) {
-        return this.size.ind2Pos(V3D.prefab.zero, ind)
+        return this.origin.add(this.size.ind2PosB(ind));
     }
 
 
@@ -114,20 +104,9 @@ class CubeArea {
         return this.posBInside(pos.sub(this.origin))
     }
 
-    /**
-     * get if the box pos inside the cube
-     * @param {V3D | Array} posB
-     * @returns {boolean}
-     */
-    posBInside(posB) {
-        return this.size.posB2Ind(posB)
-    }
-
-
-
 
     inspect() {
-        return `cube:<origin:${this.origin.toString()} ,size:${this.size.toString()}>`
+        return `cube:<origin:${this.origin.toString()}, size:${V3DSize.prototype.toString.call(this)}>`
     }
 
 }

@@ -68,10 +68,11 @@ class V3DSize extends V3D {
      * convert ind to pos
      * @param {V3D} origin
      * @param {number} ind
+     * @return {V3D} box pos
      */
-    ind2Pos(origin, ind) {
+    ind2PosB(ind) {
         let realInd = ind >= this.total ? this.total - 1 : ind
-        return new V3DSize(
+        return new V3D(
             Math.floor(realInd % this.plat) / this.plat,
             Math.floor(realInd / this.plat),
             ind % this.plat
