@@ -40,7 +40,7 @@ class V3DSize extends V3D {
      * @param {V3D | array} pos
      */
     posB2Ind(pos) {
-        if (pos instanceof Array) {
+        if (pos instanceof Array || pos instanceof Uint8Array) {
             return pos[1] * this.plat + pos[0] * this.depth + pos[2];
         } else {
             return pos.y * this.plat + pos.x * this.depth + pos.z;
@@ -52,7 +52,7 @@ class V3DSize extends V3D {
      * @param {V3D | array} pos
      */
     posBInside(pos) {
-        if (pos instanceof Array) {
+        if (pos instanceof Array || pos instanceof Uint8Array) {
             return pos[0] >= 0 && pos[0] < this.width &&
                 pos[1] >= 0 && pos[1] < this.height &&
                 pos[2] >= 0 && pos[2] < this.depth
