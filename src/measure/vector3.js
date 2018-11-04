@@ -148,7 +148,7 @@ class Vector3 {
 
     /**
      * sub a vector3
-     * @param {Vector3} v3 - another vector3
+     * @param {Vector3 | Array} v3 - another vector3
      * @param {boolean} inPlace - is it a mutable operation
      * @returns {Vector3} result - in inPlace or new vector3
      */
@@ -162,7 +162,7 @@ class Vector3 {
 
     /**
      * multiply (正片叠底)
-     * @param {Vector3} v3
+     * @param {Vector3 | Array} v3
      * @param {boolean} inPlace - is it a mutable operation
      * @returns {Vector3} result - in inPlace or new vector3
      */
@@ -176,13 +176,14 @@ class Vector3 {
 
     /**
      * lerp to
-     * @param {Vector3} v3
+     * @param {Vector3 | Array} v3
      * @param {number} factor - form: 0, to: 1
      * @param {boolean} inPlace - is it a mutable operation
      * @returns {Vector3} result - in inPlace or new vector3
      */
     lerp(v3, factor = 0.5, inPlace = false) {
-        return this.scl(1 - factor, inPlace).add(v3.scl(factor), true);
+        return this.sub(this.sub(v3).scl(factor), inPlace);
+        //return this.scl(1 - factor, inPlace).add(v3.scl(factor), true);
     }
 
     /**
@@ -203,7 +204,7 @@ class Vector3 {
 
     /**
      * dot operation
-     * @param {Vector3} v3
+     * @param {Vector3 | Array} v3
      * @returns {number}
      */
     dot(v3) {

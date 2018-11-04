@@ -28,11 +28,15 @@ class V3DSize extends V3D {
 
     /**
      * convert pos to ind
-     * @param {V3D} origin
-     * @param {V3D} pos
+     * @param {V3D | array} origin
+     * @param {V3D | array} pos
      */
     pos2Ind(origin, pos) {
-        return this.posB2Ind(pos.sub(origin));
+        return this.posB2Ind([
+            pos[0] - origin[0],
+            pos[1] - origin[1],
+            pos[2] - origin[2]
+        ]);
     }
 
     /**
@@ -40,11 +44,7 @@ class V3DSize extends V3D {
      * @param {V3D | array} pos
      */
     posB2Ind(pos) {
-        if (pos instanceof Array || pos instanceof Uint8Array) {
-            return pos[1] * this.plat + pos[0] * this.depth + pos[2];
-        } else {
-            return pos.y * this.plat + pos.x * this.depth + pos.z;
-        }
+        return pos[1] * this.plat + pos[0] * this.depth + pos[2];
     }
 
     /**
@@ -52,23 +52,16 @@ class V3DSize extends V3D {
      * @param {V3D | array} pos
      */
     posBInside(pos) {
-        if (pos instanceof Array || pos instanceof Uint8Array) {
-            return pos[0] >= 0 && pos[0] < this.width &&
-                pos[1] >= 0 && pos[1] < this.height &&
-                pos[2] >= 0 && pos[2] < this.depth
-        } else {
-            return pos.x >= 0 && pos.x < this.width &&
-                pos.y >= 0 && pos.y < this.height &&
-                pos.z >= 0 && pos.z < this.depth
-        }
+        return pos[0] >= 0 && pos[0] < this.width &&
+            pos[1] >= 0 && pos[1] < this.height &&
+            pos[2] >= 0 && pos[2] < this.depth
     }
 
 
     /**
-     * convert ind to pos
-     * @param {V3D} origin
+     * convert ind to box pos
      * @param {number} ind
-     * @return {V3D} box pos
+     * @return {V3D} posB
      */
     ind2PosB(ind) {
         let realInd = ind >= this.total ? this.total - 1 : ind
@@ -82,6 +75,7 @@ class V3DSize extends V3D {
     /**
      * scroll origin in the box
      * @param {V3D} posB - pos in box
+     * @return {V3D} posB
      */
     scroll(posB) {
         return new V3DSize(
