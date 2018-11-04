@@ -20,7 +20,7 @@ describe('lib/dataStructure/Vector3', function () {
         assert.equal(c.x, 20)
         assert.equal(c.y, 21)
         assert.equal(c.z, 22)
-        c._x += 1
+        c[0] += 1
         assert.equal(c.x, 21)
         assert.equal(v3.x, 20)
         c.y += 1
@@ -126,11 +126,11 @@ describe('lib/dataStructure/Vector3', function () {
 
     it('string compressed', function () {
         v3.string(true).should.equal("20,21,22")
-        v3._x = 0
+        v3[0] = 0
         v3.string(true).should.equal(",21,22")
-        v3._z = 0
+        v3[2] = 0
         v3.string(true).should.equal(",21,")
-        v3._y = 0
+        v3[1] = 0
         v3.string(true).should.equal(",,")
     })
 

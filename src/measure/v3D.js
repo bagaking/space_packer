@@ -3,22 +3,22 @@ const Vector3 = require('./vector3')
 class V3D extends Vector3 {
 
     get strict() {
-        this._x = this._x | 0
-        this._y = this._y | 0
-        this._z = this._z | 0
+        this[0] = this[0] | 0
+        this[1] = this[1] | 0
+        this[2] = this[2] | 0
         return this
     }
 
     get x(){
-        return this._x | 0
+        return this[0] | 0
     }
 
     get y(){
-        return this._y | 0
+        return this[1] | 0
     }
 
     get z(){
-        return this._z | 0
+        return this[2] | 0
     }
 
     constructor(x, y, z) {

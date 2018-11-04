@@ -65,11 +65,11 @@ class Vector3 {
 
     constructor(x, y, z) {
         /**@type {number} */
-        this._x = x
+        this[0] = x
         /**@type {number} */
-        this._y = y
+        this[1] = y
         /**@type {number} */
-        this._z = z
+        this[2] = z
         this.self = this.strict
     }
 
@@ -78,7 +78,7 @@ class Vector3 {
      * @returns {number}
      */
     get x() {
-        return this._x
+        return this[0]
     }
 
     /**
@@ -86,7 +86,7 @@ class Vector3 {
      * @returns {number}
      */
     get y() {
-        return this._y
+        return this[1]
     }
 
     /**
@@ -94,7 +94,7 @@ class Vector3 {
      * @returns {number}
      */
     get z() {
-        return this._z
+        return this[2]
     }
 
     get strict(){
@@ -106,7 +106,7 @@ class Vector3 {
      * @returns {*}
      */
     clone() {
-        return new this.constructor(this._x, this._y, this._z)
+        return new this.constructor(this[0], this[1], this[2])
     }
 
     /**
@@ -117,9 +117,9 @@ class Vector3 {
      */
     scl(scalar, inPlace = false) {
         let ret = inPlace ? this : this.clone()
-        ret._x *= scalar
-        ret._y *= scalar
-        ret._z *= scalar
+        ret[0] *= scalar
+        ret[1] *= scalar
+        ret[2] *= scalar
         return ret.strict
     }
 
@@ -134,15 +134,15 @@ class Vector3 {
 
     /**
      * add a vector3
-     * @param {Vector3} v3 - another vector3
+     * @param {Vector3 | Array} v3 - another vector3
      * @param {boolean} inPlace - is it a mutable operation
      * @returns {Vector3} result - in inPlace or new vector3
      */
     add(v3, inPlace = false) {
         let ret = inPlace ? this : this.clone()
-        ret._x += v3._x
-        ret._y += v3._y
-        ret._z += v3._z
+        ret[0] += v3[0]
+        ret[1] += v3[1]
+        ret[2] += v3[2]
         return ret.strict
     }
 
@@ -154,9 +154,9 @@ class Vector3 {
      */
     sub(v3, inPlace = false) {
         let ret = inPlace ? this : this.clone()
-        ret._x -= v3._x
-        ret._y -= v3._y
-        ret._z -= v3._z
+        ret[0] -= v3[0]
+        ret[1] -= v3[1]
+        ret[2] -= v3[2]
         return ret.strict
     }
 
@@ -168,9 +168,9 @@ class Vector3 {
      */
     mul(v3, inPlace = false) {
         let ret = inPlace ? this : this.clone()
-        ret._x *= v3.x
-        ret._y *= v3.y
-        ret._z *= v3.z
+        ret[0] *= v3[0]
+        ret[1] *= v3[1]
+        ret[2] *= v3[2]
         return ret.strict
     }
 
@@ -194,9 +194,9 @@ class Vector3 {
      */
     clamp(min, max, inPlace = false) {
         let ret = inPlace ? this : this.clone()
-        ret._x = ret._x < min ? min : ret._x > max ? max : ret._x;
-        ret._y = ret._y < min ? min : ret._y > max ? max : ret._y;
-        ret._z = ret._z < min ? min : ret._z > max ? max : ret._z;
+        ret[0] = ret[0] < min ? min : ret[0] > max ? max : ret[0];
+        ret[1] = ret[1] < min ? min : ret[1] > max ? max : ret[1];
+        ret[2] = ret[2] < min ? min : ret[2] > max ? max : ret[2];
         return ret.strict
     }
 
@@ -208,9 +208,9 @@ class Vector3 {
      */
     dot(v3) {
         return (
-            this.x * v3.x +
-            this.y * v3.y +
-            this.z * v3.z
+            this[0] * v3[0] +
+            this[1] * v3[1] +
+            this[2] * v3[2]
         );
     }
 
@@ -234,7 +234,7 @@ class Vector3 {
      * @returns {string} result - the string
      */
     toString(compress = false) {
-        return compress ? `${this._x ? this._x : ''},${this._y ? this._y : ''},${this._z ? this._z : ''}` : `(${this._x},${this._y},${this._z})`
+        return compress ? `${this.x ? this.x : ''},${this.y ? this.y : ''},${this.z ? this.z : ''}` : `(${this.x},${this.y},${this.z})`
     }
 
     toArray() {
