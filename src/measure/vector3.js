@@ -50,6 +50,7 @@ if(_g === undefined || _g === null) _g = window
 if(_g === undefined || _g === null) _g = {}
 _g[symV3Prefab] = {}
 
+//todo: interfaces judge Vector3 | Array
 /**
  * Vector3
  */
@@ -167,6 +168,7 @@ class Vector3 {
      * @returns {Vector3} result - in inPlace or new vector3
      */
     mul(v3, inPlace = false) {
+
         let ret = inPlace ? this : this.clone()
         ret[0] *= v3[0]
         ret[1] *= v3[1]

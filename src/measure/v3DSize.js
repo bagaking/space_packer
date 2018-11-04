@@ -74,25 +74,27 @@ class V3DSize extends V3D {
 
     /**
      * scroll origin in the box
-     * @param {V3D} posB - pos in box
+     * @param {V3D | Array} posB - pos in box
      * @return {V3D} posB
      */
     scroll(posB) {
-        return new V3DSize(
-            posB.x >= 0 ? (posB.x % this.width) : ((posB.x % this.width + this.width) % this.width),
-            posB.y >= 0 ? (posB.y % this.height) : ((posB.y % this.height + this.height) % this.height),
-            posB.z >= 0 ? (posB.z % this.depth) : ((posB.z % this.depth + this.depth) % this.depth),
+        return new V3D(
+            posB[0] >= 0 ? (posB[0] % this.width) : ((posB[0] % this.width + this.width) % this.width),
+            posB[1] >= 0 ? (posB[1] % this.height) : ((posB[1] % this.height + this.height) % this.height),
+            posB[2] >= 0 ? (posB[2] % this.depth) : ((posB[2] % this.depth + this.depth) % this.depth),
         )
     }
 
     /**
      * for each ind in the box
      * @param fnEach
+     * @param {V3D | Array}  from - default : V3D.prefab.zero
+     * @param {V3D | Array}  to - default : V3D.prefab.minusOne
      */
     forEachPosB(fnEach, from = V3D.prefab.zero, to = V3D.prefab.minusOne) {
         let start = this.scroll(from);
         let end = this.scroll(to);
-        V3D.forEachFromTo((i,j,k) => fnEach(this.posB2Ind([i, j, k]), i, j, k), start, end);
+        V3D.forEachFromTo((i, j, k) => fnEach(this.posB2Ind([i, j, k]), i, j, k), start, end);
     }
 
 
