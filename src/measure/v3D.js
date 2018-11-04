@@ -34,6 +34,24 @@ class V3D extends Vector3 {
         return "v3d:" + this.toString()
     }
 
+    /**
+     * forEach From To
+     * @param fnEach (fn (i,j,k)=> void)
+     * @param from (start position)
+     * @param to (end position)
+     */
+    static forEachFromTo(fnEach, from, to) {
+        let min = { x: Math.min(from.x, to.x), y: Math.min(from.y, to.y), z: Math.min(from.z, to.z)};
+        let max = { x: Math.max(from.x, to.x), y: Math.max(from.y, to.y), z: Math.max(from.z, to.z)};
+
+        for (let i = min.x; i <= max.x; i++) {
+            for (let j = min.y; j <= max.y; j++) {
+                for (let k = min.z; k <= max.z; k++) {
+                    fnEach(i, j, k);
+                }
+            }
+        }
+    }
 }
 
 module.exports = V3D
