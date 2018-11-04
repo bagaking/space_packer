@@ -104,10 +104,12 @@ class Vector3 {
 
     /**
      * get a clone of this vector3
-     * @returns {*}
+     * @returns {Vector3}
      */
     clone() {
-        return new this.constructor(this[0], this[1], this[2])
+        return new Vector3(this[0], this[1], this[2]);
+        // this.constructor(this[0], this[1], this[2])
+        // kh: use override rather than constructor to avoid uncertain side effects
     }
 
     /**

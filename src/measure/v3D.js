@@ -21,6 +21,14 @@ class V3D extends Vector3 {
         return this[2] | 0
     }
 
+    /**
+     * clone a V3D object
+     * @return {V3D}
+     */
+    clone() {
+        return new V3D(this[0], this[1], this[2])
+    }
+
     constructor(x, y, z) {
         super(x, y, z)
         this.strict
