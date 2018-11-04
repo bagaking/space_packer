@@ -15,6 +15,13 @@ describe('lib/dataStructure/Vector3', function () {
         assert.equal(v3.z, 22)
     })
 
+
+    it('index', function () {
+        assert.equal(v3[0], 20)
+        assert.equal(v3[1], 21)
+        assert.equal(v3[2], 22)
+    })
+
     it('clone', function () {
         let c = v3.clone()
         assert.equal(c.x, 20)
