@@ -79,8 +79,9 @@ class V3DSize extends V3D {
      */
     restrictPosB(posB) {
         let zero = V3D.prefab.zero;
+        let max = this.sub(V3D.prefab.one);
         let m = (min, max, v) => Math.min(max, Math.max(min, v))
-        return new V3D(m(zero.x, this.x, pos[0]), m(zero.y, this.y, pos[1]), m(zero.z, this.z, pos[2]))
+        return new V3D(m(zero.x, max.x, posB[0]), m(zero.y, max.y, posB[1]), m(zero.z, max.z, posB[2]))
     }
 
     /**
