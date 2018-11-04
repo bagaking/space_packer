@@ -120,18 +120,18 @@ describe('lib/dataStructure/Vector3', function () {
     })
 
     it('string', function () {
-        let str = v3.string()
-        assert.equal(str, "20,21,22")
+        let str = v3.toString()
+        assert.equal(str, "(20,21,22)")
     })
 
     it('string compressed', function () {
-        v3.string(true).should.equal("20,21,22")
+        v3.toString(true).should.equal("20,21,22")
         v3[0] = 0
-        v3.string(true).should.equal(",21,22")
+        v3.toString(true).should.equal(",21,22")
         v3[2] = 0
-        v3.string(true).should.equal(",21,")
+        v3.toString(true).should.equal(",21,")
         v3[1] = 0
-        v3.string(true).should.equal(",,")
+        v3.toString(true).should.equal(",,")
     })
 
 

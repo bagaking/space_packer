@@ -1,11 +1,11 @@
-const {Vector3, V3Discrete} = require('../../src/measure')
+const {Vector3, V3D} = require('../../src/measure')
 const should = require('should');
 
 let v3 = null
 
 describe('lib/dataStructure/v3Discrete', function () {
     beforeEach(async () => {
-        v3 = new V3Discrete(20, 21.5, 22)
+        v3 = new V3D(20, 21.5, 22)
     })
 
     it('create', function () {
@@ -25,7 +25,7 @@ describe('lib/dataStructure/v3Discrete', function () {
     })
 
     it('add', function () {
-        let nV3 = v3.add(V3Discrete.prefab.one)
+        let nV3 = v3.add(V3D.prefab.one)
         v3.x.should.equal(20)
         v3.y.should.equal(21)
         v3.z.should.equal(22)
