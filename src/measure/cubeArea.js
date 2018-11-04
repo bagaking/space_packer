@@ -31,28 +31,22 @@ class CubeArea extends V3DSize {
     }
 
     /**
-     * shrink the pos in the box
+     * shrink the absolute pos in the box
      * @param {V3D | array} absolute position
-     * @returns {V3D}
+     * @returns {V3D} new absolute pos
      */
-    restrictPos(pos) {
-        let pMin = this.origin
-        let pMax = this.origin.add(this.size).sub(V3D.prefab.one)
-        let m = (min, max, v) => Math.min(max, Math.max(min, v))
-        return new V3D(
-            m(pMin.x, pMax.x, pos[0]), m(pMin.y, pMax.y, pos[1]), m(pMin.z, pMax.z, pos[2])
-        )
+    restrictPosA(posA) {
+        let posB = this.posA2B(posA);
+        return this.restrictPosB(posB);
     }
 
     /**
      * absolute position to box position
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
+     * @param {V3D | Array} pos
      * @return {V3D}
      */
-    posA2B(x, y, z) {
-        return new V3D(x - this.origin.x, y - this.origin.y, z - this.origin.z);
+    posA2B(pos) {
+        return new V3D(pos[0] - this.origin.x, pos[1] - this.origin.y, pos[2] - this.origin.z);
     }
 
     /**

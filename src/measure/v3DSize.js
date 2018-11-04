@@ -73,6 +73,17 @@ class V3DSize extends V3D {
     }
 
     /**
+     * shrink the box pos in the box
+     * @param {V3D | array} box position
+     * @returns {V3D}
+     */
+    restrictPosB(posB) {
+        let zero = V3D.prefab.zero;
+        let m = (min, max, v) => Math.min(max, Math.max(min, v))
+        return new V3D(m(zero.x, this.x, pos[0]), m(zero.y, this.y, pos[1]), m(zero.z, this.z, pos[2]))
+    }
+
+    /**
      * scroll origin in the box
      * @param {V3D | Array} posB - pos in box
      * @return {V3D} posB
