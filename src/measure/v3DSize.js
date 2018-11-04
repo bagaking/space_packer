@@ -66,9 +66,9 @@ class V3DSize extends V3D {
     ind2PosB(ind) {
         let realInd = ind >= this.total ? this.total - 1 : ind
         return new V3D(
-            Math.floor(realInd % this.plat) / this.plat,
+            Math.floor(realInd % this.plat) / this.depth,
             Math.floor(realInd / this.plat),
-            ind % this.plat
+            realInd % this.depth
         )
     }
 
