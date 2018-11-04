@@ -92,14 +92,7 @@ class V3DSize extends V3D {
     forEachPosB(fnEach, from = V3D.prefab.zero, to = V3D.prefab.minusOne) {
         let start = this.scroll(from);
         let end = this.scroll(to);
-
-        for (let i = start.x; i <= end.x; i++) {
-            for (let j = start.y; j <= end.y; j++) {
-                for (let k = start.z; k <= end.z; k++) {
-                    fnEach(this.posB2Ind([i, j, k]), i, j, k);
-                }
-            }
-        }
+        V3D.forEachFromTo((i,j,k) => fnEach(this.posB2Ind([i, j, k]), i, j, k), start, end);
     }
 
 

@@ -36,9 +36,9 @@ class V3D extends Vector3 {
 
     /**
      * forEach From To
-     * @param fnEach (fn (i,j,k)=> void)
-     * @param from (start position)
-     * @param to (end position)
+     * @param fnEach - fn (i,j,k)=> void
+     * @param {V3D} from - start position
+     * @param {V3D} to - end position
      */
     static forEachFromTo(fnEach, from, to) {
         let min = { x: Math.min(from.x, to.x), y: Math.min(from.y, to.y), z: Math.min(from.z, to.z)};
